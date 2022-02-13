@@ -28,7 +28,7 @@ package:
 
 custom:
   customDomain:
-    domainName: teclabrava.com
+    domainName: api.teclabrava.com
     basePath: ''
     stage: ${self:provider.stage}
     createRoute53Record: true
