@@ -8,6 +8,7 @@ provider:
     logRetentionInDays: 30
 plugins:
     - ./vendor/bref/bref
+    - serverless-domain-manager
 
 functions:
     api:
@@ -24,3 +25,10 @@ package:
     patterns:
         - '!node_modules/**'
         - '!tests/**'
+
+custom:
+  customDomain:
+    domainName: teclabrava.com
+    basePath: ''
+    stage: ${self:provider.stage}
+    createRoute53Record: true

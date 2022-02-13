@@ -18,6 +18,11 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
+    - name: Install Node dependencies
+      run: |
+        npm install -g serverless
+        npm install
+
     - name: Install composer dependencies
       run: |
         composer install --no-scripts
@@ -31,7 +36,5 @@ jobs:
 
     - name: Deployment in AWS
       run: |
-        npm install -g serverless
-        ls -lah
         serverless deploy --config=serverless.yml --stage ${GITHUB_REF##*/}
 
