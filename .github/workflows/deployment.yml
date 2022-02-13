@@ -32,6 +32,6 @@ jobs:
     - name: Deployment in AWS
       run: |
         npm install -g serverless
-        cd ${{ github.workdir }}
-        serverless deploy --stage ${GITHUB_REF##*/}
+        ls -lah
+        serverless deploy --config=serverless.yml --stage ${GITHUB_REF##*/}
 
