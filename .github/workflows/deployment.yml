@@ -13,8 +13,8 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
     - name: Deployment in AWS
       run: |
-        cd ${{ github.workdir }}
         npm install -g serverless
+        cd ${{ github.workdir }}
         serverless deploy
 
 
