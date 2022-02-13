@@ -31,8 +31,8 @@ jobs:
       run: |
         cp .env.example .env
 
-    - name: Run Testsuite
-      run: vendor/bin/phpunit tests/
+#    - name: Run Testsuite
+#      run: vendor/bin/phpunit tests/
 
     - name: Deployment in AWS
       run: |
