@@ -2,9 +2,9 @@ service: app
 
 provider:
     name: aws
-    region: us-east-1
+    region: us-east-2
     runtime: provided.al2
-
+    stage: dev
 plugins:
     - ./vendor/bref/bref
 
