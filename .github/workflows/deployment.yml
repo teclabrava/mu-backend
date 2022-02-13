@@ -2,7 +2,7 @@ name: Deployment Serverless
 on: [push]
 jobs:
   deploy:
-    runs-on: "node:12-buster"
+    runs-on: ubuntu-latest
     steps:
       - run: npm install -g serverless
       - run: npm install
