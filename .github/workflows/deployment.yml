@@ -5,6 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: npm install -g serverless
-      - run: serverless config credentials.aws set --stage $AWS_STAGE --region $AWS_REGION --accessKeyId $AWS_ACCESS_KEY_ID --secretAccessKey $AWS_SECRET_ACCESS_KEY
       - run: serverless deploy
+    uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
 
