@@ -1,0 +1,28 @@
+{
+    "name": "mu-backend",
+    "version": "1.0.0",
+    "directories": {
+        "test": "tests"
+    },
+    "dependencies": {
+        "serverless-domain-manager": "^6.0.2"
+    },
+    "devDependencies": {
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/teclabrava/mu-backend.git"
+    },
+    "keywords": [
+        "serverless"
+    ],
+    "author": "Teclabrava",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/teclabrava/mu-backend/issues"
+    },
+    "homepage": "https://github.com/teclabrava/mu-backend#readme"
+}
