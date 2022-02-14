@@ -2,13 +2,6 @@
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 $router->get('/', function () use ($router) {
-    return redirect('/api/manu/v1');
-});
-
-$router->group(['prefix' => 'api/manu/v1'],
-    function () use ($router) {
-
-$router->get('/', function () use ($router) {
     return response()->json(['status' => 'OK']);
 });
 /**
@@ -123,7 +116,3 @@ $router->get('user/{username}', 'UserApi@getUserByName');
  * Output-Formats: [application/json, application/xml]
  */
 $router->put('user/{username}', 'UserApi@updateUser');
-
-
-
-    });

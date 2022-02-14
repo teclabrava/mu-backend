@@ -1,4 +1,5 @@
-service: manu
+app: manu
+service: player
 frameworkVersion: '3'
 provider:
   name: aws
@@ -54,8 +55,9 @@ custom:
   customDomain:
     domainName: api.teclabrava.com
     stage: ${opt:stage, 'dev'}
+    basePath: "${self:app}/${opt:stage, 'dev'}/v1"
     createRoute53Record: true
-    certificateArn: "arn:aws:acm:us-east-2:691299212682:certificate/9147892b-f45c-4f67-bb8b-a9b9022f8af6"
+    certificateName: "*.teclabrava.com"
     securityPolicy: tls_1_2
     endpointType: regional
     apiType: http
