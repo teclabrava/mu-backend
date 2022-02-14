@@ -5,7 +5,7 @@ Homestead.yaml
 .env
 .phpunit.result.cache
 /.serverless
-
+composer.lock
 
 /node_modules
 /public/hot
@@ -16,3 +16,4 @@ docker-compose.override.yml
 npm-debug.log
 yarn-error.log
 /.vscode
+package-lock.json

@@ -1,9 +1,15 @@
 <?php
 /** @var \Laravel\Lumen\Routing\Router $router */
 
+$router->get('/', function () use ($router) {
+    return redirect('/api/manu/v1');
+});
 
-$router->get('help', function () use ($router) {
-    return $router->app->version();
+$router->group(['prefix' => 'api/manu/v1'],
+    function () use ($router) {
+
+$router->get('/', function () use ($router) {
+    return response()->json(['status' => 'OK']);
 });
 /**
  * post addplayer
@@ -119,3 +125,5 @@ $router->get('user/{username}', 'UserApi@getUserByName');
 $router->put('user/{username}', 'UserApi@updateUser');
 
 
+
+    });

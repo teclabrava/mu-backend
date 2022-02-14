@@ -1,34 +1,63 @@
-service: app
-
+service: manu
+frameworkVersion: '3'
 provider:
-    name: aws
-    runtime: provided.al2
-    stage: ${opt:stage, "dev"}
-    region: ${env:AWS_REGION, "us-east-2"}
-    logRetentionInDays: 30
+  name: aws
+  runtime: provided.al2
+  stage: ${opt:stage, 'dev'}
+  region: ${env:AWS_REGION, 'us-east-2'}
+#  httpApi:
+#    authorizers:
+#      someJwtAuthorizer:
+#        type: jwt
+#        identitySource: $request.header.Authorization
+#        issuerUrl: https://cognito-idp.${region}.amazonaws.com/${cognitoPoolId}
+#        audience:
+#          - ${client1Id}
+#          - ${client2Id}
 plugins:
-    - ./vendor/bref/bref
-    - serverless-domain-manager
-
+  - ./vendor/bref/bref
+  - serverless-domain-manager
+  - serverless-dotenv-plugin
 functions:
-    api:
-        handler: 'public/index.php'
-        description: ''
-        timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
-        layers:
-            - ${bref:layer.php-74-fpm}
-        events:
-            -   httpApi: '*'
+  app:
+    handler: 'public/index.php'
+    description: ''
+    timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
+    layers:
+      - ${bref:layer.php-74-fpm}
+    events:
+      - httpApi: '*'
 
 # Exclude files from deployment
 package:
-    patterns:
-        - '!node_modules/**'
-        - '!tests/**'
+  patterns:
+    - '!node_modules/**'
+    - '!tests/**'
+
+resources:
+  Resources:
+    ArchetypeTableResource:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: "${self:provider.stage}.player"
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
 
 custom:
   customDomain:
     domainName: api.teclabrava.com
-    basePath: ''
-    stage: ${self:provider.stage}
+    stage: ${opt:stage, 'dev'}
     createRoute53Record: true
+    certificateArn: "arn:aws:acm:us-east-2:691299212682:certificate/9147892b-f45c-4f67-bb8b-a9b9022f8af6"
+    securityPolicy: tls_1_2
+    endpointType: regional
+    apiType: http
+
+
