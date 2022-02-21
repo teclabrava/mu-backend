@@ -5,6 +5,8 @@ Homestead.yaml
 .env
 .phpunit.result.cache
 /.serverless
+/.dynamodb  # for local development
+/.serverless-offline
 composer.lock
 
 /node_modules

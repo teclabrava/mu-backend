@@ -1,0 +1,3 @@
+/.serverless
+/.dynamodb  # for local development
+/.serverless-offline

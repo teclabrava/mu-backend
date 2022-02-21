@@ -8,6 +8,7 @@
         "php": "^7.3|^8.0",
         "baopham/dynamodb": "^6.1",
         "bref/bref": "^1.5",
+        "bref/extra-php-extensions": "^0.11.25",
         "bref/laravel-bridge": "^1.1",
         "laravel/lumen-framework": "^8.3.1"
     },
