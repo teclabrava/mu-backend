@@ -5,10 +5,12 @@ Homestead.yaml
 .env
 .phpunit.result.cache
 /.serverless
-/.dynamodb  # for local development
+/.dynamodb
 /.serverless-offline
 composer.lock
 
+/storage
+bootstrap/cache
 /node_modules
 /public/hot
 /public/storage
@@ -19,4 +21,5 @@ npm-debug.log
 yarn-error.log
 /.vscode
 package-lock.json
-composer.lock
+# Local S3
+storage/bucket

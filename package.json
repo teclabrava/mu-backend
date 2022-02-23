@@ -9,7 +9,8 @@
         "serverless-dotenv-plugin": "^3.12.2",
         "serverless-dynamodb-local": "^0.2.40",
         "serverless-offline": "^8.5.0",
-        "serverless-offline-direct-lambda": "^0.0.1"
+        "serverless-offline-direct-lambda": "^0.0.1",
+        "serverless-s3-local": "^0.6.21"
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
