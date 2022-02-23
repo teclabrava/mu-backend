@@ -44,19 +44,6 @@ package:
 
 resources:
   Resources:
-    ArchetypeTableResource:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: "${self:provider.stage}.player"
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
     PlayerTableResource:
       Type: AWS::DynamoDB::Table
       Properties:
