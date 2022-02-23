@@ -9,7 +9,10 @@
         "baopham/dynamodb": "^6.1",
         "bref/bref": "^1.5",
         "bref/laravel-bridge": "^1.1",
-        "laravel/lumen-framework": "^8.3.1"
+        "laravel/lumen-framework": "^8.3.1",
+        "league/flysystem": "^1.0",
+        "league/flysystem-aws-s3-v3": "^1.0",
+        "ramsey/uuid": "^4.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

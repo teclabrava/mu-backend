@@ -10,7 +10,7 @@ $router->get('/', function () use ($router) {
  * Notes:
  * Output-Formats: [application/json, application/xml]
  */
-$router->post('player', 'PlayerApi@addplayer');
+$router->post('player', 'PlayerApi@addPlayer');
 /**
  * put updateplayer
  * Summary: Update an existing player
@@ -32,6 +32,14 @@ $router->get('player/findByStatus', 'PlayerApi@findplayersByStatus');
  * Output-Formats: [application/json, application/xml]
  */
 $router->get('player/findByTags', 'PlayerApi@findplayersByTags');
+
+/**
+ * get getAll
+ * Summary: Finds all players
+ *
+ * Output-Formats: [application/json]
+ */
+$router->get('player', 'PlayerApi@getAll');
 /**
  * delete deleteplayer
  * Summary: Deletes a player
