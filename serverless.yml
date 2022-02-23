@@ -4,7 +4,7 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: provided.al2
-  stage: ${opt:stage, 'dev'}
+  stage: ${opt:stage, 'local'}
   region: ${env:AWS_REGION, 'us-east-2'}
 #  httpApi:
 #    authorizers:
@@ -17,15 +17,19 @@ provider:
 #          - ${client2Id}
 plugins:
   - ./vendor/bref/bref
+  - ./vendor/bref/extra-php-extensions
   - serverless-domain-manager
   - serverless-dotenv-plugin
+  - serverless-dynamodb-local
+  - serverless-s3-local
+  - serverless-offline
 functions:
   app:
-    handler: 'public/index.php'
-    description: ''
+    handler: public/index.php
+    description: 'CRUD operations on the player table'
     timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
     layers:
-      - ${bref:layer.php-74-fpm}
+      - ${bref:layer.php-80}
     events:
       - httpApi: '*'
 
@@ -33,11 +37,14 @@ functions:
 package:
   patterns:
     - '!node_modules/**'
+    - '!public/storage'
+    - '!resources/assets/**'
+    - '!storage/**'
     - '!tests/**'
 
 resources:
   Resources:
-    ArchetypeTableResource:
+    PlayerTableResource:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: "${self:provider.stage}.player"
@@ -50,16 +57,39 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-
+    BucketPlayerData:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: "${self:provider.stage}-player-data"
 custom:
   customDomain:
     domainName: api.teclabrava.com
-    stage: ${opt:stage, 'dev'}
-    basePath: "${self:app}/${opt:stage, 'dev'}/v1"
+    stage: ${opt:stage, 'local'}
+    basePath: "${self:app}/${opt:stage, 'local'}/v1"
     createRoute53Record: true
     certificateName: "*.teclabrava.com"
     securityPolicy: tls_1_2
     endpointType: regional
     apiType: http
-
-
+  dynamodb:
+    # If you only want to use DynamoDB Local in some stages, declare them here
+    stages:
+      - local
+    start:
+      port: 8000
+      inMemory: true
+      heapInitial: 200m
+      heapMax: 1g
+      migrate: true
+      seed: true
+      convertEmptyValues: true
+    seed:
+      player:
+        sources:
+          - table: "${self:provider.stage}.player"
+            sources: [ ./database/seeders/players.json ]
+  s3:
+    stages:
+      - local
+    host: localhost
+    directory: storage/bucket
