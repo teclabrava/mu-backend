@@ -67,6 +67,7 @@ custom:
     stage: ${opt:stage, 'local'}
     basePath: "${self:app}/${opt:stage, 'local'}/v1"
     createRoute53Record: true
+    autoDomain: true
     certificateName: "*.teclabrava.com"
     securityPolicy: tls_1_2
     endpointType: regional
