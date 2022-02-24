@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-class Player extends Model
+use BaoPham\DynamoDb\DynamoDbModel as ModelBase;
+
+class Model extends ModelBase
 {
     /**
      * The attributes that are mass assignable.
@@ -13,5 +15,8 @@ class Player extends Model
         'id', 'nickname', 'status', 'ranking', 'avatar'
     ];
 
-    protected $table = 'player';
+    public function getTable()
+    {
+        return env('DB_PREFIX','local') .'.'.  $this->table;
+    }
 }

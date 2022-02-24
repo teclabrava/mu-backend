@@ -25,11 +25,11 @@ plugins:
   - serverless-offline
 functions:
   app:
-    handler: public/index.php
+    handler: 'public/index.php'
     description: 'CRUD operations on the player table'
     timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
     layers:
-      - ${bref:layer.php-80}
+      - ${bref:layer.php-80-fpm}
     events:
       - httpApi: '*'
 
@@ -67,6 +67,7 @@ custom:
     stage: ${opt:stage, 'local'}
     basePath: "${self:app}/${opt:stage, 'local'}/v1"
     createRoute53Record: true
+    autoDomain: true
     certificateName: "*.teclabrava.com"
     securityPolicy: tls_1_2
     endpointType: regional
