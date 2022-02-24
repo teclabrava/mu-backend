@@ -61,6 +61,12 @@ $app->singleton(
 
 $app->configure('app');
 
+// Load dynamodb config file
+$app->configure('dynamodb');
+
+// Load filesystem config file
+$app->configure('filesystems');
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -90,6 +96,9 @@ $app->configure('app');
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+
+$app->register(BaoPham\DynamoDb\DynamoDbServiceProvider::class);
+$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
