@@ -29,9 +29,7 @@ class PlayerApi extends Controller
 
     public function getAll(Player $player)
     {
-        return response()->json([
-            $player->all()
-        ]);
+        return  $player->all();
     }
     /**
      * Operation addplayer

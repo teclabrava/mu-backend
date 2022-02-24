@@ -66,7 +66,8 @@ $app->configure('dynamodb');
 
 // Load filesystem config file
 $app->configure('filesystems');
-
+// Load logs config file
+$app->configure('logging');
 /*
 |--------------------------------------------------------------------------
 | Register Middleware

@@ -5,7 +5,7 @@ Laravel Lumen is a stunningly fast PHP micro-framework for building web applicat
 - PHP 8.0
 - Nodejs 14.x
 - Severless 3.x
-- aws-cliv2
+- awscliv2
 - AWS account with S3, DynamoDB, Lambda, API Gateway and Route53
 - Java 8 *(optional para ambiente local)*
 ## Instalación
@@ -22,8 +22,8 @@ php -S localhost:3000 -t public
 ```
 ### DynamoDB Local
 ```bash
-sls dynamodb install
-sls dynamodb start --migrate
+sls dynamodb install --stage local 
+sls dynamodb start --migrate --stage local
 ```
 ### S3 Local
 ```bash
