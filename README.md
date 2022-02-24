@@ -1,5 +1,5 @@
 # Mañu esta basado en Lumen
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+Backend para la gestión de Jugadores para Creditú
 
 ## Requerimientos
 - PHP 8.0
@@ -26,6 +26,15 @@ sls dynamodb install --stage local
 sls dynamodb start --migrate --stage local
 ```
 ### S3 Local
+
+Actualizar las variables de entorno:
+
+````
+BUCKET_KEY=S3RVER
+BUCKET_SECRET=S3RVER
+BUCKET_ENDPOINT=http://localhost:4569
+````
+
 ```bash
 sls offline
 ```
