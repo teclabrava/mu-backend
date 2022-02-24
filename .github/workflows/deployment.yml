@@ -38,9 +38,9 @@ jobs:
       run: |
         echo APP_ENV=${GITHUB_REF##*/} >> .env
         echo APP_DEBUG=true >> .env
+        echo DYNAMODB_PREFIX=${GITHUB_REF##*/} >> .env
         echo DYNAMODB_CONNECTION=${{ secrets.DYNAMODB_CONNECTION }} >> .env
         echo DYNAMODB_REGION=${{ secrets.AWS_REGION }} >> .env
-        echo DYNAMODB_SECRET=${{ secrets.DYNAMODB_SECRET }} >> .env
         echo DYNAMODB_KEY=${{ secrets.DYNAMODB_KEY }} >> .env
+        echo DYNAMODB_SECRET=${{ secrets.DYNAMODB_SECRET }} >> .env
         serverless deploy --config=serverless.yml --stage ${GITHUB_REF##*/}
-

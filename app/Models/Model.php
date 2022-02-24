@@ -17,6 +17,6 @@ class Model extends ModelBase
 
     public function getTable()
     {
-        return env('DB_PREFIX','local') .'.'.  $this->table;
+        return env('DYNAMODB_PREFIX','local') .'.'.  $this->table;
     }
 }
