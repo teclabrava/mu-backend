@@ -9,7 +9,7 @@ set -m
 # Start the helper process
 sls offline --stage local &
 sls dynamodb install && sls dynamodb start --stage local &
-php -S 0.0.0.0:80 -t /app/public
+php -S 0.0.0.0:8080 -t $(PWD)/public
 # the my_helper_process might need to know how to wait on the
 # primary process to start before it does its work and returns
 
