@@ -22,9 +22,9 @@ Copiar las variables de entorno .env.example.local a .env
 cp .env.example.local .env
 bash init.sh
 ```
-Abrir en el navegador: http://localhost:3000
+Abrir en el navegador: http://localhost:8080
 ## Levantar con Docker Compose
 ```bash
 docker-compose up -d
 ```
-Abrir en el navegador: http://localhost:3000
+Abrir en el navegador: http://localhost:8080
