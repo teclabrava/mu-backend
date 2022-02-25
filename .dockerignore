@@ -1,3 +1,12 @@
-/.serverless
-/.dynamodb  # for local development
-/.serverless-offline
+.git
+.DS_Store
+.gitignore
+README.md
+.serverless
+.dynamodb
+.serverless-offline
+node_modules
+.idea
+vendor
+docker-compose.yaml
+Dockerfile

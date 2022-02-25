@@ -8,34 +8,23 @@ Backend para la gestión de Jugadores para Creditú
 - awscliv2
 - AWS account with S3, DynamoDB, Lambda, API Gateway and Route53
 - Java 8 *(optional para ambiente local)*
-## Instalación
+## Levantar Localmente
+La base de dynamoDB se guarda en memoria
 ### Dependencias
 ```bash
-npm install -g serverless
+sudo npm install -g serverless
 npm install 
 composer install
 ```
-## Levantar Localmente
 ### Servidor web
+Copiar las variables de entorno .env.example.local a .env 
 ```bash
-php -S localhost:3000 -t public
+cp .env.example.local .env
+bash init.sh
 ```
-### DynamoDB Local
+Abrir en el navegador: http://localhost:3000
+## Levantar con Docker Compose
 ```bash
-sls dynamodb install --stage local 
-sls dynamodb start --migrate --stage local
+docker-compose up -d
 ```
-### S3 Local
-
-Actualizar las variables de entorno:
-
-````
-BUCKET_KEY=S3RVER
-BUCKET_SECRET=S3RVER
-BUCKET_ENDPOINT=http://localhost:4569
-````
-
-```bash
-sls offline
-```
-
+Abrir en el navegador: http://localhost:3000

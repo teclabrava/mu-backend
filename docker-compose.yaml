@@ -1,0 +1,12 @@
+version: "3"
+services:
+  api:
+    container_name: api
+    build: .
+    ports:
+      - "3000:80"
+    command: |
+      ./init.sh
+    volumes:
+      - ./.env.example.local:/app/.env
+      - ./storage/bucket:/app/storage/bucket

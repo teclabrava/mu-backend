@@ -92,5 +92,5 @@ custom:
   s3:
     stages:
       - local
-    host: localhost
+    port: 4569
     directory: storage/bucket
