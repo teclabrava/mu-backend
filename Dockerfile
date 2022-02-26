@@ -30,6 +30,6 @@ COPY . .
 RUN composer install
 RUN npm install
 
-EXPOSE 80
+EXPOSE 8080
 EXPOSE 8000
 EXPOSE 4569

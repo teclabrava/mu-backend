@@ -10,3 +10,4 @@ services:
     volumes:
       - ./.env.example.local:/app/.env
       - ./storage/bucket:/app/storage/bucket
+      - ./app:/app/app

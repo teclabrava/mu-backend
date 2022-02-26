@@ -13,5 +13,5 @@ class Player extends Model
         'id', 'nickname', 'status', 'ranking', 'avatar'
     ];
 
-    protected $table = 'player';
+    protected $table = 'local.player';
 }

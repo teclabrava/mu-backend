@@ -173,7 +173,19 @@ class PlayerApi extends Controller
     public function deletePlayer($playerId)
     {
         $playerModel = new Player();
-        $playerModel->find($playerId)->delete();
+        $player = $playerModel->find($playerId);
+        if($player){
+            $player->delete();
+            return [
+                'message' => 'Player deleted'
+            ];
+        } else {
+            return [
+                'error' => 'Not Found',
+                'message' => 'Player not found',
+                'response' => 404
+            ];
+        }
     }
     /**
      * Operation getplayerById
