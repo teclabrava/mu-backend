@@ -17,7 +17,7 @@ $router->post('player', 'PlayerApi@addPlayer');
  * Notes:
  * Output-Formats: [application/json, application/xml]
  */
-$router->put('player', 'PlayerApi@updateplayer');
+$router->put('player', 'PlayerApi@updatePlayer');
 /**
  * get findplayersByStatus
  * Summary: Finds players by status
@@ -46,14 +46,14 @@ $router->get('player', 'PlayerApi@getAll');
  * Notes:
  * Output-Formats: [application/json, application/xml]
  */
-$router->delete('player/{player_id}', 'PlayerApi@deleteplayer');
+$router->delete('player/{playerId}', 'PlayerApi@deletePlayer');
 /**
  * get getplayerById
  * Summary: Find player by ID
  * Notes: Returns a single player
  * Output-Formats: [application/json, application/xml]
  */
-$router->get('player/{player_id}', 'PlayerApi@getplayerById');
+$router->get('player/{playerId}', 'PlayerApi@getPlayerById');
 /**
  * post updateplayerWithForm
  * Summary: Updates a player in the store with form data

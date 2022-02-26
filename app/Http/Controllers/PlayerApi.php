@@ -42,7 +42,7 @@ class PlayerApi extends Controller
     {
         $nickname = $request->input('nickname');
         $status = 1;
-        $ranking = 0;
+        $ranking = $request->input('ranking',0);;
         $avatar = $request->file('avatar');
 
         // Unique check on nickname
@@ -66,10 +66,10 @@ class PlayerApi extends Controller
         $player->avatar = $avatar->getClientOriginalName();
         $player->save();
 
-        return response()->json([
+        return [
             'response' => 200,
             'message' => $player->id
-        ]);
+        ];
     }
 
     /**
@@ -80,21 +80,38 @@ class PlayerApi extends Controller
      *
      * @return Http response
      */
-    public function updateplayer()
+    public function updatePlayer(Request $request)
     {
-        $input = Request::all();
+        $id = $request->input('id');
+        $playerOld = $this->getPlayerById($id);
 
-        //path params validation
-
-
-        //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling updateplayer');
+        if($playerOld['error']) {
+            return $playerOld;
         }
-        $body = $input['body'];
 
+        $player = new Player();
+        $nickname = $request->input('nickname',$playerOld->nickname);
+        $status = $request->input('status',$playerOld->status);
+        $ranking = $request->input('ranking',$playerOld->ranking);;
+        $avatar = $request->file('avatar');
 
-        return response('How about implementing updateplayer as a put method ?');
+        if ($avatar) {
+            Storage::put($avatar->getClientOriginalName(), $avatar);
+            $player->avatar = $avatar->getClientOriginalName();
+        } else {
+            $player->avatar = $playerOld->avatar;
+        }
+
+        $player->id = $id;
+        $player->nickname = $nickname;
+        $player->status = $status;
+        $player->ranking = $ranking;
+        $player->update();
+
+        return [
+            'response' => 200,
+            'message' => $player->id
+        ];
     }
     /**
      * Operation findplayersByStatus
@@ -153,16 +170,10 @@ class PlayerApi extends Controller
      *
      * @return Http response
      */
-    public function deleteplayer($player_id)
+    public function deletePlayer($playerId)
     {
-        $input = Request::all();
-
-        //path params validation
-
-
-        //not path params validation
-
-        return response('How about implementing deleteplayer as a delete method ?');
+        $playerModel = new Player();
+        $playerModel->find($playerId)->delete();
     }
     /**
      * Operation getplayerById
@@ -171,18 +182,23 @@ class PlayerApi extends Controller
      *
      * @param int $player_id ID of player to return (required)
      *
-     * @return Http response
+     * @return array If exists object with player data
      */
-    public function getplayerById($player_id)
+    public function getPlayerById($playerId)
     {
-        $input = Request::all();
-
-        //path params validation
-
-
-        //not path params validation
-
-        return response('How about implementing getplayerById as a get method ?');
+        $res = ['error' => 'Bad Request'];
+        if ($playerId) {
+            $modelPlayer = new Player();
+            $player = $modelPlayer->find($playerId);
+            if ($player) {
+                $res = $player;
+            } else {
+                $res['message'] = 'Player not found';
+            }
+        } else {
+            $res['message'] = 'ID not sent';
+        }
+        return $res;
     }
     /**
      * Operation updateplayerWithForm
