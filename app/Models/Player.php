@@ -12,6 +12,9 @@ class Player extends Model
     protected $fillable = [
         'id', 'nickname', 'status', 'ranking', 'avatar'
     ];
-
-    protected $table = 'local.player';
+    public function __construct(array $attributes = [])
+    {
+        $this->table = env('DYNAMODB_PREFIX','local') . '.player';
+        parent::__construct($attributes);
+    }
 }
