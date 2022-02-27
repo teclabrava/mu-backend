@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
     dirname(__DIR__)
@@ -83,6 +83,9 @@ $app->configure('logging');
 //     'auth' => App\Http\Middleware\Authenticate::class,
 // ]);
 
+$app->middleware([
+    'Nord\Lumen\Cors\CorsMiddleware',
+]);
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
@@ -100,6 +103,7 @@ $app->configure('logging');
 
 $app->register(BaoPham\DynamoDb\DynamoDbServiceProvider::class);
 $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
+$app->register('Nord\Lumen\Cors\CorsServiceProvider');
 
 /*
 |--------------------------------------------------------------------------
@@ -115,7 +119,7 @@ $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 $app->router->group([
     'namespace' => 'App\Http\Controllers'
 ], function ($router) {
-    require __DIR__.'/../routes/api.php';
+    require __DIR__ . '/../routes/api.php';
 });
 
 return $app;
