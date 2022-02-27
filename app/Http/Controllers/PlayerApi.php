@@ -27,9 +27,18 @@ class PlayerApi extends Controller
     {
     }
 
-    public function getAll(Player $player)
+    /**
+     * Get all players
+     *
+     * @param Player $player    Player Model
+     * @param Request $request  Filters passed: nickname and status
+     * @return \BaoPham\DynamoDb\DynamoDbCollection All players found by filter
+     */
+    public function getAll(Player $player, Request $request)
     {
-        return  $player->all();
+        $nickname = $request->input('nickname');
+
+        return $nickname ? $player->where('nickname', 'contains', $nickname)->all() : $player->all();
     }
     /**
      * Operation addplayer
