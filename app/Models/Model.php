@@ -15,8 +15,8 @@ class Model extends ModelBase
         'id', 'nickname', 'status', 'ranking', 'avatar'
     ];
 
-    public function getTable()
-    {
-        return env('DYNAMODB_PREFIX','local') .'.'.  $this->table;
-    }
+//    public function getTable()
+//    {
+//        return env('DYNAMODB_PREFIX','local') .'.'.  $this->table;
+//    }
 }

@@ -10,7 +10,7 @@ cp .env.example.local .env
 # Start the helper process
 sls offline --stage local &
 sls dynamodb install && sls dynamodb start --stage local &
-php -S 0.0.0.0:8080 -t ./public
+php -S 0.0.0.0:8080 -t public
 # the my_helper_process might need to know how to wait on the
 # primary process to start before it does its work and returns
 
