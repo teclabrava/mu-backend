@@ -2,7 +2,7 @@ name: Deployment Serverless
 on:
   push:
     branches:
-      - 'main'
+      - 'production'
       - 'develop'
 jobs:
   deploy:
@@ -11,31 +11,25 @@ jobs:
     - uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - name: Configure AWS credentials from Test account
+    - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
-    - name: Install Node dependencies
+    - name: Install nodejs dependencies
       run: |
         npm install -g serverless
         npm install
 
-    - name: Install composer dependencies
+    - name: Install PHP dependencies
       run: |
         composer install --no-scripts
 
-    - name: Prepare Laravel Application
+    - name: Prepare environment
       run: |
         cp .env.example .env
-
-#    - name: Run Testsuite
-#      run: vendor/bin/phpunit tests/
-
-    - name: Deployment in AWS
-      run: |
         echo APP_ENV=${GITHUB_REF##*/} >> .env
         echo APP_DEBUG=true >> .env
         echo DYNAMODB_PREFIX=${GITHUB_REF##*/} >> .env
@@ -43,4 +37,13 @@ jobs:
         echo DYNAMODB_REGION=${{ secrets.AWS_REGION }} >> .env
         echo DYNAMODB_KEY=${{ secrets.DYNAMODB_KEY }} >> .env
         echo DYNAMODB_SECRET=${{ secrets.DYNAMODB_SECRET }} >> .env
+        if [[ "${GIHUB_REF##*/}" == "production" ]]
+        then
+          echo BUCKET_URL=https://www.teclabrava.com >> .env
+        elif [[ "${GIHUB_REF##*/}" == "develop" ]]
+          echo BUCKET_URL=https://develop.teclabrava.com >> .env
+        fi
+
+    - name: Deployment in AWS
+      run: |
         serverless deploy --config=serverless.yml --stage ${GITHUB_REF##*/}
