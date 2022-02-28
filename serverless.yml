@@ -93,4 +93,4 @@ custom:
     stages:
       - local
     port: 4569
-    directory: /app/public/assets
+    directory: ./public/assets
