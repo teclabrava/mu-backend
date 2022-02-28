@@ -3,6 +3,7 @@
 #Job control is enabled.
 set -m
 # Copy the configuration file
+mkdir -p public/assets/manu-frontend-local
 cp .env.example.local .env
 
 # Install dependencies
@@ -17,7 +18,7 @@ sls dynamodb install && sls dynamodb start --stage local --verbose >&2 &
 php -S 0.0.0.0:8080 -t public >&2 &
 
 # Wait all jobs complete
-wait
+wait -f
 
 # Exit with status of process that exited first
 exit $?
