@@ -58,6 +58,7 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
     BucketPlayerData:
+      stage: local
       Type: AWS::S3::Bucket
       Properties:
         BucketName: "${self:provider.stage}-player-data"
@@ -93,4 +94,4 @@ custom:
     stages:
       - local
     port: 4569
-    directory: storage/bucket
+    directory: publica/assets

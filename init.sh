@@ -1,20 +1,23 @@
 #!/bin/bash
 
-# turn on bash's job control
+#Job control is enabled.
 set -m
-
-# Start the primary process and put it in the background
-
+# Copy the configuration file
 cp .env.example.local .env
 
-# Start the helper process
-sls offline --stage local &
-sls dynamodb install && sls dynamodb start --stage local &
-php -S 0.0.0.0:8080 -t public
-# the my_helper_process might need to know how to wait on the
-# primary process to start before it does its work and returns
+# Install dependencies
+npm install
+composer install
 
+# Run Local S3
+sls offline --stage local >&2 &
+# Run Local dynamodb
+sls dynamodb install && sls dynamodb start --stage local --verbose >&2 &
+# Run Local web server
+php -S 0.0.0.0:8080 -t public >&2 &
 
-# now we bring the primary process back into the foreground
-# and leave it there
-fg %1
+# Wait all jobs complete
+wait
+
+# Exit with status of process that exited first
+exit $?

@@ -1,13 +1,11 @@
 version: "3"
 services:
   api:
-    container_name: api
+    container_name: manu-backend
     build: .
     ports:
       - "8080:8080"
-    command: |
-      ./init.sh
     volumes:
       - ./.env.example.local:/app/.env
-      - ./storage/bucket:/app/storage/bucket
+      - ./public/assets:/app/public/assets
       - ./app:/app/app
