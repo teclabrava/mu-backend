@@ -9,3 +9,4 @@ services:
       - ./.env.example.local:/app/.env
       - ./public/assets:/app/public/assets
       - ./app:/app/app
+      - ./config:/app/app/config

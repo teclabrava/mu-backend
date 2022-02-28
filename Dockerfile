@@ -36,11 +36,10 @@ RUN npm install
 
 COPY . .
 
-COPY .env.example.local .env
-
 RUN composer install
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY .env.example.local .env
 
 EXPOSE 8080
 

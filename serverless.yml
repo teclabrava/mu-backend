@@ -57,11 +57,10 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-    BucketPlayerData:
-      stage: local
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: "${self:provider.stage}-player-data"
+#    BucketPlayerData:
+#      Type: AWS::S3::Bucket
+#      Properties:
+#        BucketName: "${self:provider.stage}-player-data"
 custom:
   customDomain:
     domainName: api.teclabrava.com
@@ -94,4 +93,4 @@ custom:
     stages:
       - local
     port: 4569
-    directory: publica/assets
+    directory: /app/public/assets

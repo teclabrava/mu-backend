@@ -5,14 +5,13 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0",
         "baopham/dynamodb": "^6.1",
         "bref/bref": "^1.5",
         "bref/extra-php-extensions": "^0.11.25",
         "bref/laravel-bridge": "^1.1",
-        "laravel/lumen-framework": "^8.3.1",
-        "league/flysystem": "^1.0",
-        "league/flysystem-aws-s3-v3": "^1.0",
+        "laravel/lumen-framework": "^v8.3.4",
+        "league/flysystem-aws-s3-v3": "^1.0.29",
         "nordsoftware/lumen-cors": "^3.4",
         "ramsey/uuid": "^4.2"
     },
