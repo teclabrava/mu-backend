@@ -38,6 +38,7 @@ package:
   patterns:
     - '!node_modules/**'
     - '!public/storage'
+    - '!public/assets'
     - '!resources/assets/**'
     - '!storage/**'
     - '!tests/**'
@@ -57,10 +58,6 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-#    BucketPlayerData:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: "${self:provider.stage}-player-data"
 custom:
   customDomain:
     domainName: api.teclabrava.com

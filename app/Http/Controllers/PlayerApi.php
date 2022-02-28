@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PlayerApi extends Controller
 {
+
     /**
      * Constructor
      */
@@ -52,7 +53,6 @@ class PlayerApi extends Controller
         $nickname = $request->input('nickname');
         $status = 1;
         $ranking = $request->input('ranking',0);;
-        $avatar = $request->file('avatar');
 
         // Unique check on nickname
         if ($nickname === null) {
@@ -63,16 +63,17 @@ class PlayerApi extends Controller
             ]);
         }
 
-        if ($avatar) {
-            Storage::put($avatar->getClientOriginalName(), $avatar);
-        }
-
         $player = new Player();
         $player->id = Str::uuid()->toString();
         $player->nickname = $nickname;
         $player->status = $status;
         $player->ranking = $ranking;
-        $player->avatar = $avatar->getClientOriginalName();
+
+        if ($request->hasFile('avatar')) {
+            $path = $request->file('avatar');
+            $player->addAvatar($path);
+        }
+
         $player->save();
 
         return [

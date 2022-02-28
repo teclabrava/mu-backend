@@ -20,7 +20,7 @@ RUN echo "deb https://packages.sury.org/php/ bullseye main" | tee /etc/apt/sourc
 
 RUN apt-get update &&  \
     apt-get install -yq php8.0 && \
-    apt-get install -y php8.0-cli php8.0-curl php8.0-common php8.0-imap php8.0-redis php8.0-snmp php8.0-xml php8.0-zip php8.0-mbstring -y && \
+    apt-get install -y php8.0-cli php8.0-curl php8.0-common php8.0-imap php8.0-gd php8.0-redis php8.0-snmp php8.0-xml php8.0-zip php8.0-mbstring -y && \
     apt-get clean && rm -rf /var/lib/apt/lists/* \
 
 RUN apt-get update && curl -sL https://deb.nodesource.com/setup_16.x | bash - &&  apt-get -y install nodejs
@@ -42,6 +42,7 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY .env.example.local .env
 
 EXPOSE 8080
+EXPOSE 4569
 
 CMD ["/usr/bin/supervisord"]
 

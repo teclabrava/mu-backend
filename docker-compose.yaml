@@ -5,6 +5,7 @@ services:
     build: .
     ports:
       - "8080:8080"
+      - "4569:4569"
     volumes:
       - ./.env.example.local:/app/.env
       - ./public/assets:/app/public/assets
