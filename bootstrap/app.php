@@ -103,7 +103,7 @@ $app->middleware([
 
 $app->register(BaoPham\DynamoDb\DynamoDbServiceProvider::class);
 $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
-$app->register('Nord\Lumen\Cors\CorsServiceProvider');
+$app->register(Nord\Lumen\Cors\CorsServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
