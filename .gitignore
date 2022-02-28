@@ -22,4 +22,4 @@ yarn-error.log
 /.vscode
 package-lock.json
 # Local S3
-storage/bucket
+public/assets
