@@ -22,13 +22,6 @@ class PlayerApi extends Controller
 {
 
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Get all players
      *
      * @param Player $player    Player Model
