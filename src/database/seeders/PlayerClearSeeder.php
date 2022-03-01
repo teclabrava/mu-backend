@@ -6,7 +6,7 @@ use App\Models\Player;
 use Illuminate\Database\Seeder;
 use BaoPham\DynamoDb\Facades\DynamoDb;
 
-class PlayerSeeder extends Seeder
+class PlayerClearSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -15,9 +15,8 @@ class PlayerSeeder extends Seeder
      */
     public function run()
     {
-        Player::factory()
-            ->connection(config('dynamodb.default'))
-            ->count(100)
-            ->create();
+        Player::all()->each(function ($player) {
+            $player->delete();
+        });
     }
 }

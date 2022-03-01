@@ -44,3 +44,28 @@ cd src
 php -S 0.0.0.0:8080 -t public >&2
 ```
 Abrir en el navegador: http://localhost:8080
+## Generar datos de prueba
+### Generar datos de prueba en DynamoDB
+Configurar la cuenta de AWS para conectarse con la lambda
+```bash
+aws configure
+```
+Ejecutar la creación de usuarios de 200 en 200
+El nombre de la función lambda es: player-<ENVIRONMENT>-console
+```bash
+"vendor\bin\bref" cli -r us-east-2 "player-develop-console" -- db:seed --class=PlayerSeeder
+```
+Limpiar la table de usuarios
+```bash
+"vendor\bin\bref" cli -r us-east-2 "player-develop-console" -- db:seed --class=PlayerClearSeeder
+```
+Crear 3000 players 
+```bash
+x=1
+while [ $x -le 20 ]
+do
+  echo "Creando $(( x * 100 )) playes"
+  "vendor\bin\bref" cli -r us-east-2 "player-develop-console" -- db:seed --class=PlayerSeeder
+  x=$(( $x + 1 ))
+done
+```
