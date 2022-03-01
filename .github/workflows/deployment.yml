@@ -18,9 +18,9 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
     - name: Move files
-        run: |
-          mv src/* ./
-          mv serverless/* ./
+      run: |
+        mv src/* ./
+        mv serverless/* ./
     - name: Install nodejs dependencies
       run: |
         npm install -g serverless
