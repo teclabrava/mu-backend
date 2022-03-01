@@ -61,11 +61,12 @@ Limpiar la table de usuarios
 ```
 Crear 3000 players 
 ```bash
-x=1
-while [ $x -le 20 ]
+i=1
+while [ $i -le 20 ]
 do
-  echo "Creando $(( x * 100 )) playes"
-  "vendor\bin\bref" cli -r us-east-2 "player-develop-console" -- db:seed --class=PlayerSeeder
-  x=$(( $x + 1 ))
+  players=$(( $i * 100 ));
+  echo "Creando $players playes";
+  "vendor\bin\bref" cli -r us-east-2 "player-develop-console" -- db:seed --class=PlayerSeeder;
+  i=$(( $i + 1 ));
 done
 ```
