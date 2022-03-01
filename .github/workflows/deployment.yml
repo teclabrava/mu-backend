@@ -17,7 +17,10 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
-
+    - name: Move files
+        run: |
+          mv src/* ./
+          mv serverless/* ./
     - name: Install nodejs dependencies
       run: |
         npm install -g serverless
@@ -29,14 +32,21 @@ jobs:
 
     - name: Prepare environment
       run: |
-        cp .env.example .env
+        cp env.example .env
         echo APP_ENV=${GITHUB_REF##*/} >> .env
         echo APP_DEBUG=true >> .env
+
         echo DYNAMODB_PREFIX=${GITHUB_REF##*/} >> .env
         echo DYNAMODB_CONNECTION=${{ secrets.DYNAMODB_CONNECTION }} >> .env
         echo DYNAMODB_REGION=${{ secrets.AWS_REGION }} >> .env
         echo DYNAMODB_KEY=${{ secrets.DYNAMODB_KEY }} >> .env
         echo DYNAMODB_SECRET=${{ secrets.DYNAMODB_SECRET }} >> .env
+
+        echo BUCKET_SECRET=${{ secrets.BUCKET_SECRET }} >> .env
+        echo BUCKET_KEY=${{ secrets.BUCKET_KEY }} >> .env
+        echo BUCKET_REGION=${{ secrets.BUCKET_REGION }} >> .env
+        echo BUCKET_NAME=${{ secrets.BUCKET_NAME }}-${APP_ENV} >> .env
+
         if [[ "${GIHUB_REF##*/}" == "production" ]]
         then
           echo BUCKET_URL=https://www.teclabrava.com >> .env
