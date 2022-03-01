@@ -31,6 +31,8 @@ functions:
     events:
       - httpApi: '*'
   console:
+    description: 'remote command execution'
+    timeout: 28
     handler: artisan
     layers:
       - ${bref:layer.php-80}
