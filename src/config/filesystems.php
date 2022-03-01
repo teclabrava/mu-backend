@@ -63,7 +63,7 @@ return [
             'bucket' => env('BUCKET_NAME').'-'.env('APP_ENV'),
             'url' => env('BUCKET_URL'),
             'endpoint' => env('BUCKET_ENDPOINT'),
-            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', true),
+            'use_path_style_endpoint' => env('BUCKET_AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
 
     ],
