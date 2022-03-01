@@ -42,8 +42,8 @@ jobs:
         echo DYNAMODB_KEY=${{ secrets.DYNAMODB_KEY }} >> .env
         echo DYNAMODB_SECRET=${{ secrets.DYNAMODB_SECRET }} >> .env
 
-        echo BUCKET_SECRET=${{ secrets.BUCKET_SECRET }} >> .env
         echo BUCKET_KEY=${{ secrets.BUCKET_KEY }} >> .env
+        echo BUCKET_SECRET=${{ secrets.BUCKET_SECRET }} >> .env
         echo BUCKET_REGION=${{ secrets.BUCKET_REGION }} >> .env
         echo BUCKET_NAME=${{ secrets.BUCKET_NAME }}-${APP_ENV} >> .env
 
