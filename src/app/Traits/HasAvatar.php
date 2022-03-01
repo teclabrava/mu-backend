@@ -30,13 +30,14 @@ trait HasAvatar
 
     public function getAvatarFilepathAttribute()
     {
-        return "{$this->avatar_dirname}/{$this->avatar_filename}.{$this->avatar_extension}";
+        $dir = $this->avatar_dirname != '' ? $this->avatar_dirname . "/" : '';
+        return "{$dir}{$this->avatar_dirname}/{$this->avatar_filename}.{$this->avatar_extension}";
     }
 
     protected function getAvatarFilepathThumbAttribute()
     {
         $size = self::$size_thumb;
-        $dir = $this->avatar_dirname != '' ? $this->avatar_dirnam . "/" : '';
+        $dir = $this->avatar_dirname != '' ? $this->avatar_dirname . "/" : '';
         return "{$dir}{$this->avatar_filename}-{$size}w.{$this->avatar_extension}";
     }
 
@@ -63,7 +64,7 @@ trait HasAvatar
         $imageFile = ImageProcess::make($image)->stream()->__toString();
         $imageFileThumb = ImageProcess::make($image)->fit(self::$size_thumb)->stream()->__toString();
         $s3 = Storage::disk('s3');
-        $s3->put('avatars/' . $this->avatar_filepath, $imageFile, 'public');
-        $s3->put('avatars/' . $this->avatar_filepath_thumb, $imageFileThumb, 'public');
+        $s3->put( $this->avatar_filepath, $imageFile, 'public');
+        $s3->put( $this->avatar_filepath_thumb, $imageFileThumb, 'public');
     }
 }

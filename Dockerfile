@@ -29,17 +29,16 @@ RUN npm install -g serverless
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 COPY --from=amazon/dynamodb-local:latest /home/dynamodblocal /app/.dynamodb
 
-
-COPY package.json /app/package.json
+COPY serverless/package.json /app/package.json
 
 RUN npm install
 
-COPY . .
+COPY src/ .
+COPY serverless/ .
 
 RUN composer install
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY .env.example.local .env
 
 EXPOSE 8080
 EXPOSE 4569

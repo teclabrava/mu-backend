@@ -20,9 +20,6 @@ plugins:
   - ./vendor/bref/extra-php-extensions
   - serverless-domain-manager
   - serverless-dotenv-plugin
-  - serverless-dynamodb-local
-  - serverless-s3-local
-  - serverless-offline
 functions:
   app:
     handler: 'public/index.php'
@@ -69,25 +66,3 @@ custom:
     securityPolicy: tls_1_2
     endpointType: regional
     apiType: http
-  dynamodb:
-    # If you only want to use DynamoDB Local in some stages, declare them here
-    stages:
-      - local
-    start:
-      port: 8000
-      inMemory: true
-      heapInitial: 200m
-      heapMax: 1g
-      migrate: true
-      seed: true
-      convertEmptyValues: true
-    seed:
-      player:
-        sources:
-          - table: "${self:provider.stage}.player"
-            sources: [ ./database/seeders/players.json ]
-  s3:
-    stages:
-      - local
-    port: 4569
-    directory: ./public/assets

@@ -7,7 +7,8 @@ services:
       - "8080:8080"
       - "4569:4569"
     volumes:
-      - ./.env.example.local:/app/.env
-      - ./public/assets:/app/public/assets
-      - ./app:/app/app
-      - ./config:/app/app/config
+      - ./src/env.example.local:/app/.env
+      - ./src/public/assets:/app/public/assets
+      - ./src/app:/app/app
+      - ./src/config:/app/config
+      - ./src/bootstrap:/app/bootstrap

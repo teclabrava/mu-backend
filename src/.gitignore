@@ -1,0 +1,9 @@
+vendor
+.env
+composer.lock
+storage
+bootstrap/cache
+public/assets
+
+
+

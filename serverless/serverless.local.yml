@@ -3,12 +3,12 @@ service: player
 frameworkVersion: '3'
 provider:
   name: aws
-  runtime: nodejs16.x
   stage: local
   region: 'us-east-2'
 plugins:
   - serverless-s3-local
   - serverless-offline
+  - serverless-dynamodb-local
 package:
   patterns:
     - '!node_modules/**'
@@ -20,7 +20,7 @@ package:
 
 resources:
   Resources:
-    PlayerTableResource:
+    PlayerTableLocal:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: "local.player"
@@ -33,12 +33,10 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-    resources:
-      Resources:
-        NewResource:
-          Type: AWS::S3::Bucket
-          Properties:
-            BucketName: manu-frontend-local
+    BucketLocal:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: manu-frontend-local
 custom:
   dynamodb:
     stages:
@@ -60,4 +58,5 @@ custom:
     stages:
       - local
     port: 4569
+    address: '0.0.0.0'
     directory: ./public/assets
