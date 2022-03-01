@@ -31,7 +31,7 @@ trait HasAvatar
     public function getAvatarFilepathAttribute()
     {
         $dir = $this->avatar_dirname != '' ? $this->avatar_dirname . "/" : '';
-        return "{$dir}{$this->avatar_dirname}/{$this->avatar_filename}.{$this->avatar_extension}";
+        return "{$dir}{$this->avatar_filename}.{$this->avatar_extension}";
     }
 
     protected function getAvatarFilepathThumbAttribute()
