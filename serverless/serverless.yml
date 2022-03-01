@@ -31,10 +31,10 @@ functions:
     events:
       - httpApi: '*'
   console:
-    handler: bin/console # or 'artisan' for Laravel
+    handler: artisan
     layers:
-      - ${bref:layer.php-80} # PHP runtime
-      - ${bref:layer.console} # Console layer
+      - ${bref:layer.php-80}
+      - ${bref:layer.console}
 
 # Exclude files from deployment
 package:
