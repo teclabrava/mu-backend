@@ -57,4 +57,4 @@ jobs:
 
     - name: Deployment in AWS
       run: |
-        serverless deploy --config=serverless.yml --stage ${GITHUB_REF##*/}
+        serverless deploy --verbose --config=serverless.yml --stage ${GITHUB_REF##*/}
