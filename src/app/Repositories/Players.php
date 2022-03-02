@@ -24,10 +24,10 @@ class Players
                 ->orWhere('status', 'contains', $q);
         }
 
+        $total_count = $query->count();
         $query->limit($per_page);
-        $items = $query->all();
         $page_count = $query->count();
-        $total_count = Player::count();
+        $items = $query->all();
         $last = $items->last();
         $paramerter_q = ($q == null) ? "" : "q=$q";
         $paramerter_per_page = ($per_page == 10) ? "" : "&per_page=$per_page";

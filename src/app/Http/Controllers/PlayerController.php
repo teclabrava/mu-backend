@@ -13,10 +13,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePlayerRequest;
-use App\Http\Requests\UpdatePlayerRequest;
 use App\Repositories\Players;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Models\Player;
 
 
@@ -39,7 +38,7 @@ class PlayerController extends Controller
     public function index()
     {
         $players = $this->players->search();
-        return  response()->json($players,206 );
+        return new JsonResponse($players,206);
     }
 
     /**
