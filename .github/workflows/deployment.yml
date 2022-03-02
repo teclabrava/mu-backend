@@ -5,9 +5,11 @@ on:
       - 'production'
       - 'develop'
 jobs:
+  test:
+    uses: ./.github/workflows/test.yml
   deploy:
     name: Deploy of Serverless
-    needs: test-unit
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
