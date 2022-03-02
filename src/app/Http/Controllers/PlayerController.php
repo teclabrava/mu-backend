@@ -10,43 +10,52 @@
  *
  */
 
-
 namespace App\Http\Controllers;
 
 use App\Repositories\Players;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Models\Player;
 
-
+/**
+ * Class PlayerController - Controlador de jugadores
+ */
 class PlayerController extends Controller
 {
-
+    /**
+     * @var Players
+     */
     protected $players;
+    /**
+     * @var JsonResponse
+     */
+    protected $response;
 
-    public function __construct(Players $players)
+    /**
+     * @param Players $players
+     * @param JsonResponse $response
+     */
+    public function __construct(Players $players, JsonResponse $response)
     {
         $this->players = $players;
+        $this->response = $response;
     }
+
     /**
-     * Get all players
-     *
-     * @param Player $player Player Model
-     * @param Request $request Filters passed: nickname and status
-     * @return \BaoPham\DynamoDb\DynamoDbCollection All players found by filter
+     * Display a listing of the playes.
+     * @return \Illuminate\Http\JsonResponse All players found by filter
      */
     public function index()
     {
         $players = $this->players->search();
-        return new JsonResponse($players,206);
+        $this->response->setData($players);
+        $this->response->setStatusCode(206);
+        return $this->response;
     }
 
     /**
-     * Operation addplayer
-     *
-     * Add a new player to the store.
-     *
-     * @return \Illuminate\Http\JsonResponse Array with Player ID
+     * Operation createPlayer
+     * @param Request $request Player to create
+     * @return \Illuminate\Http\JsonResponse Player added
      */
     public function store(Request $request)
     {
@@ -54,32 +63,34 @@ class PlayerController extends Controller
             'nickname' => 'required|max:255',
             'status' => 'required|max:10',
             'ranking' => 'required|integer',
-            'avatar' =>  'required',
+            'avatar' => 'required',
         ]);
-
         $player = $this->players->store($request);
-        return response()->json($player,201 );
+        $this->response->setData($player);
+        $this->response->setStatusCode(201);
+        return $this->response;
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * Display the  player.
+     * @param $id Player id
+     * @return \Illuminate\Http\JsonResponse Player found by id
      */
     public function show($id)
     {
-       $player = $this->players->findById($id);
-       return $player;
+        $player = $this->players->findById($id);
+        $this->response->setStatusCode(404);
+        if ($player) {
+            $this->response->setStatusCode(200);
+        }
+        $this->response->setData($player);
+        return $this->response;
     }
 
     /**
-     * Operation updateplayer
-     *
-     * Update an existing player.
-     *
-     *
-     * @return Http response
+     * Operation updatePlayer
+     * @param Request $request Player to update
+     * @return \Illuminate\Http\JsonResponse Player updated
      */
     public function update(Request $request, $id)
     {
@@ -87,32 +98,28 @@ class PlayerController extends Controller
             'nickname' => 'required|max:255',
             'status' => 'required|max:10',
             'ranking' => 'required|integer',
-            'avatar' =>  'required',
+            'avatar' => 'required',
         ]);
+
         $player = $this->players->update($request, $id);
-        if($player) {
-            return response()->json($player, 200);
-        } else {
-            return response()->json(null, 422);
+        $this->response->setStatusCode(422);
+        if ($player) {
+            $this->response->setStatusCode(200);
         }
+        $this->response->setData($player);
+        return $this->response;
     }
 
     /**
      * Operation deleteplayer
-     *
-     * Deletes a player.
-     *
-     * @param int $player_id player id to delete (required)
-     *
-     * @return Http response
+     * @param $id   Player id
+     * @return  \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        if ($this->players->destroy($id)) {
-            return response()->json(null, 204);
-        } else {
-            return response()->json(null, 404);
-        }
+        $statusCode= $this->players->destroy($id);
+        $this->response->setStatusCode($statusCode);
+        $this->response->setData([]);
+        return $this->response;
     }
-
 }

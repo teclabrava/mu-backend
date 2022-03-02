@@ -18,7 +18,7 @@ class Players
             $query->after(Player::findOrFail($last_id));
         }
 
-        if ($q != null || $q != "") {
+        if ($q != null && $q != "") {
             $query->where('id', 'contains', $q)
                 ->orWhere('nickname', 'contains', $q)
                 ->orWhere('status', 'contains', $q);
@@ -75,7 +75,7 @@ class Players
             $player->save();
             return $player;
         }
-        return null;
+        return 422;
 
     }
 
@@ -84,9 +84,9 @@ class Players
         $player = $this->findById($id);
         if ($player) {
             $player->delete();
-            return true;
+            return 204;
         }
-        return null;
+        return 404;
     }
 
 
