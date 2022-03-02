@@ -1,4 +1,4 @@
-name: Deployment Serverless
+name: Test Unit
 on: [push,pull_request]
 jobs:
   test-unit:
