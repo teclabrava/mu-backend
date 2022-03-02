@@ -9,21 +9,47 @@ class Players
 {
     public function search()
     {
-        $q = request('q',null   );
-        $page = request('page', 1);
+        $q = request('q', null);
+        $last_id = request('last', null);
         $per_page = request('per_page', 10);
 
         $query = Player::query();
+        if ($last_id) {
+            $query->after(Player::findOrFail($last_id));
+        }
 
         if ($q != null || $q != "") {
             $query->where('id', 'contains', $q)
                 ->orWhere('nickname', 'contains', $q)
                 ->orWhere('status', 'contains', $q);
         }
-        $players = $query->decorate(function (RawDynamoDbQuery $raw) {
-            $raw->query['ScanIndexForward'] = false;
-        })->limit($per_page)->offset(($page - 1) * $per_page)->get();
-        return $players;
+
+        $query->limit($per_page);
+        $items = $query->all();
+        $page_count = $query->count();
+        $total_count = Player::count();
+        $last = $items->last();
+        $paramerter_q=($q==null)?"":"q=$q";
+        $paramerter_per_page=($per_page==10)?"":"&per_page=$per_page";
+        $next_link="/players?$paramerter_q$paramerter_per_page&last={$last->id}";
+        if($page_count<$per_page ) {
+            $next_link = null;
+        }
+        $data = [
+            "last" => $last->id,
+            "per_page" => $per_page,
+            "page_count" => $page_count,
+            "total_count" => $total_count,
+            "records" => $items,
+            "links" => [
+                "first" => "/player?$paramerter_q$paramerter_per_page",
+                "self" => "/player?$paramerter_q$paramerter_per_page&last={$last_id}",
+                "next" => $next_link,
+            ]
+        ];
+
+
+        return $data;
     }
 
     public function store($request)

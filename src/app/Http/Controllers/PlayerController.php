@@ -18,8 +18,7 @@ use App\Http\Requests\UpdatePlayerRequest;
 use App\Repositories\Players;
 use Illuminate\Http\Request;
 use App\Models\Player;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+
 
 class PlayerController extends Controller
 {
@@ -50,8 +49,15 @@ class PlayerController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse Array with Player ID
      */
-    public function store(CreatePlayerRequest $request)
+    public function store(Request $request)
     {
+        $this->validate($request, [
+            'nickname' => 'required|max:255',
+            'status' => 'required|max:10',
+            'ranking' => 'required|integer',
+            'avatar' =>  'required',
+        ]);
+
         $player = $this->players->store($request);
         return response()->json($player,201 );
     }
@@ -76,8 +82,14 @@ class PlayerController extends Controller
      *
      * @return Http response
      */
-    public function update(UpdatePlayerRequest $request, $id)
+    public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'nickname' => 'required|max:255|unique:players,nickname,' .$id,
+            'status' => 'required|max:10',
+            'ranking' => 'required|integer',
+            'avatar' =>  'required',
+        ]);
         $player = $this->players->update($request, $id);
         return $player;
     }
