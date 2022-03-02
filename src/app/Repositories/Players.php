@@ -26,10 +26,11 @@ class Players
                 $query->orWhere('id', '=', $q);
             }
         }
-
-        $total_count = $query->count();
+        $query_total = clone $query;
+        $total_count = $query_total->count();
         $query->limit($per_page);
-        $page_count = $query->count();
+        $query_page_count = clone $query;
+        $page_count = $query_page_count->count();
         $items = $query->all();
         $last = $items->last();
         $paramerter_q = ($q == null) ? "" : "q=$q";
