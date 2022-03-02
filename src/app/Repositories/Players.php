@@ -36,7 +36,7 @@ class Players
             $next_link = null;
         }
         $data = [
-            "last" => $last->id,
+            "last" =>  ($last)? $last->id: null,
             "per_page" => $per_page,
             "page_count" => $page_count,
             "total_count" => $total_count,
