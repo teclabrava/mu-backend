@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use App\Traits\HasAvatar;
+use App\Traits\TraitUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Player extends Model
 {
-    use HasFactory, HasAvatar;
+    use HasFactory, HasAvatar, TraitUuid;
 
+
+    protected $primaryKey = 'id';
     /**
      * The attributes that are mass assignable.
      *
@@ -24,4 +27,10 @@ class Player extends Model
         $this->table = env('DYNAMODB_PREFIX', 'local') . '.player';
         parent::__construct($attributes);
     }
+
+    protected $dynamoDbIndexKeys = [
+        'ranking_index' => [
+            'hash' => 'ranking',
+        ],
+    ];
 }
