@@ -8,15 +8,6 @@ use BaoPham\DynamoDb\RawDynamoDbQuery;
 class Players
 {
 
-    public function getPaginated()
-    {
-        $page = request('page', 1);
-        $per_page = request('per_page', 10);
-        return Player::decorate(function (RawDynamoDbQuery $raw) {
-            $raw->query['ScanIndexForward'] = false;
-        })->limit($per_page)->offset(($page - 1) * $per_page)->get();
-    }
-
     public function store($request)
     {
         $playerRequest = $request->all();
@@ -50,12 +41,17 @@ class Players
     {
         $page = request('page', 1);
         $per_page = request('per_page', 10);
-        $players = Player::where('id', 'contains', $q)
-            ->orWhere('nickname', 'contains', $q)
-            ->orWhere('status', 'contains', $q)
-            ->decorate(function (RawDynamoDbQuery $raw) {
-                $raw->query['ScanIndexForward'] = false;
-            })->limit($per_page)->offset(($page - 1) * $per_page)->get();
+
+        $query = Player::query();
+
+        if ($q != null || $q != "") {
+            $query->where('id', 'contains', $q)
+                ->orWhere('nickname', 'contains', $q)
+                ->orWhere('status', 'contains', $q);
+        }
+        $players = $query->decorate(function (RawDynamoDbQuery $raw) {
+            $raw->query['ScanIndexForward'] = false;
+        })->limit($per_page)->offset(($page - 1) * $per_page)->get();
         return $players;
     }
 }

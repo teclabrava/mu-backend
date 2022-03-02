@@ -11,4 +11,4 @@ $router->post('player', 'PlayerController@store');
 $router->get('player/{id}', 'PlayerController@show');
 $router->put('player/{id}', 'PlayerController@update');
 $router->delete('player/{id}', 'PlayerController@destroy');
-$router->get('player/search', 'PlayerController@search');
+

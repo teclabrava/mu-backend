@@ -39,8 +39,9 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        $players = $this->players->getPaginated();
-        return $players;
+        $q = request('q',null   );
+        $players = $this->players->search($q);
+        return  response()->json($players,206 );
     }
 
     /**
@@ -53,7 +54,7 @@ class PlayerController extends Controller
     public function store(CreatePlayerRequest $request)
     {
         $player = $this->players->store($request);
-        return $player;
+        return response()->json($player,201 );
     }
 
     /**
@@ -97,9 +98,4 @@ class PlayerController extends Controller
         return response()->json(null, 204);
     }
 
-    public function search($q)
-    {
-        $players = $this->players->search($q);
-        return $players;
-    }
 }
