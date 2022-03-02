@@ -7,7 +7,7 @@ use BaoPham\DynamoDb\RawDynamoDbQuery;
 
 class Players
 {
-    public function search($q)
+    public function search()
     {
         $q = request('q',null   );
         $page = request('page', 1);
