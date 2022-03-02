@@ -5,11 +5,21 @@ on:
       - 'production'
       - 'develop'
 jobs:
-  test:
-    uses: ./.github/workflows/test.yml
+  test-unit:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Run PHPUnit tests
+        run: |
+          cd src/
+          composer install
+          vendor/bin/phpunit
   deploy:
     name: Deploy of Serverless
-    needs: test
+    needs: test-unit
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1

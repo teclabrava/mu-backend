@@ -1,5 +1,5 @@
 name: Deployment Serverless
-on: [push, pull_request]
+on: [push,pull_request]
 jobs:
   test-unit:
     name: Run unit tests
