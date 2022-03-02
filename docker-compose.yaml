@@ -13,3 +13,6 @@ services:
       - ./src/config:/app/config
       - ./src/bootstrap:/app/bootstrap
       - ./src/database:/app/database
+      - ./src/routes:/app/routes
+      - ./src/test:/app/test
+

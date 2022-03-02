@@ -31,7 +31,7 @@ class Players
         $last = $items->last();
         $paramerter_q = ($q == null) ? "" : "q=$q";
         $paramerter_per_page = ($per_page == 10) ? "" : "&per_page=$per_page";
-        $next_link = "player?$paramerter_q$paramerter_per_page&last={$last->id}";
+        $next_link = ($last)? "player?$paramerter_q$paramerter_per_page&last={$last->id}": "" ;
         if ($page_count < $per_page) {
             $next_link = null;
         }

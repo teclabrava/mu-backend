@@ -4,7 +4,7 @@
         "name": "John Doe",
         "nickname": "John",
         "rating": 500,
-        "status": 1,
-        "avatar_external": "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y"
+        "status": "oro",
+        "avatar_external": "https://i.pravatar.cc/150?u=318b6523-e42c-4b31-9ed9-a4700d03c98f"
     }
 ]
