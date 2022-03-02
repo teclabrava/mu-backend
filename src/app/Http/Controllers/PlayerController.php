@@ -109,7 +109,7 @@ class PlayerController extends Controller
      */
     public function destroy($id)
     {
-        if ($this->players->delete($id)) {
+        if ($this->players->destroy($id)) {
             return response()->json(null, 204);
         } else {
             return response()->json(null, 404);
