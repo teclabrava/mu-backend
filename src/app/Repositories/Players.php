@@ -29,7 +29,7 @@ class Players
         $query_total = clone $query->getQuery();
         $total_count = $query_total->count();
         $query->limit($per_page);
-        $items = $query->all();
+        $items = $query->get();
         $query_page_count = clone $query->getQuery();
         $page_count = $query_page_count->count();
         $last = $items->last();

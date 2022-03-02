@@ -70,3 +70,8 @@ do
   i=$(( $i + 1 ));
 done
 ```
+##Run unit tests
+It has been implemented in the folder src/tests/unit the unit test  for actions index, show, and delete
+```bash
+vendor\bin\phpunit
+```
