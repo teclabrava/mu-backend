@@ -39,8 +39,7 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        $q = request('q',null   );
-        $players = $this->players->search($q);
+        $players = $this->players->search();
         return  response()->json($players,206 );
     }
 

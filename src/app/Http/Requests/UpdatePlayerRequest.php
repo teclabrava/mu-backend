@@ -26,9 +26,9 @@ class UpdatePlayerRequest extends Request
         $player = $this->route('player');
         return [
             'nickname' => 'required|max:255|unique:players,nickname,' . $player->id,
-            'status' => 'required|email|max:10',
+            'status' => 'required|max:10',
             'ranking' => 'required|integer',
-            'avatar' => 'required|image',
+            'avatar' =>  'required|image',
         ];
     }
 

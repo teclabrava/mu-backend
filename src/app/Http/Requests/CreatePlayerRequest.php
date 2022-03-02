@@ -25,7 +25,7 @@ class CreatePlayerRequest extends Request
     {
         return [
             'nickname' => 'required|max:255',
-            'status' => 'required|email|max:10',
+            'status' => 'required|max:10',
             'ranking' => 'required|integer',
             'avatar' =>  'required|image',
         ];
