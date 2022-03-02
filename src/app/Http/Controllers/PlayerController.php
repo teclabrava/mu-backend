@@ -85,7 +85,7 @@ class PlayerController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'nickname' => 'required|max:255|unique:players,nickname,' .$id,
+            'nickname' => 'required|max:255',
             'status' => 'required|max:10',
             'ranking' => 'required|integer',
             'avatar' =>  'required',

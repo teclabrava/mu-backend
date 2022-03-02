@@ -31,7 +31,7 @@ class Players
         $last = $items->last();
         $paramerter_q = ($q == null) ? "" : "q=$q";
         $paramerter_per_page = ($per_page == 10) ? "" : "&per_page=$per_page";
-        $next_link = "/players?$paramerter_q$paramerter_per_page&last={$last->id}";
+        $next_link = "player?$paramerter_q$paramerter_per_page&last={$last->id}";
         if ($page_count < $per_page) {
             $next_link = null;
         }
@@ -42,8 +42,8 @@ class Players
             "total_count" => $total_count,
             "records" => $items,
             "links" => [
-                "first" => "/player?$paramerter_q$paramerter_per_page",
-                "self" => "/player?$paramerter_q$paramerter_per_page&last={$last_id}",
+                "first" => "player?$paramerter_q$paramerter_per_page",
+                "self" => "player?$paramerter_q$paramerter_per_page&last={$last_id}",
                 "next" => $next_link,
             ]
         ];
