@@ -22,6 +22,9 @@ class Players
             $query->where('id', 'contains', $q)
                 ->orWhere('nickname', 'contains', $q)
                 ->orWhere('status', 'contains', $q);
+            if(is_numeric($q) && is_int($q +0)) {
+                $query->orWhere('id', '=', $q);
+            }
         }
 
         $total_count = $query->count();
