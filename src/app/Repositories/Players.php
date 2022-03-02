@@ -29,9 +29,9 @@ class Players
         $query_total = clone $query->getQuery();
         $total_count = $query_total->count();
         $query->limit($per_page);
+        $items = $query->all();
         $query_page_count = clone $query->getQuery();
         $page_count = $query_page_count->count();
-        $items = $query->all();
         $last = $items->last();
         $paramerter_q = ($q == null) ? "" : "q=$q";
         $paramerter_per_page = ($per_page == 10) ? "" : "&per_page=$per_page";
