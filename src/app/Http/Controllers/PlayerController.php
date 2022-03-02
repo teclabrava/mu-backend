@@ -91,7 +91,11 @@ class PlayerController extends Controller
             'avatar' =>  'required',
         ]);
         $player = $this->players->update($request, $id);
-        return $player;
+        if($player) {
+            return response()->json($player, 200);
+        } else {
+            return response()->json(null, 422);
+        }
     }
 
     /**
@@ -105,8 +109,11 @@ class PlayerController extends Controller
      */
     public function destroy($id)
     {
-        $this->players->destroy($id);
-        return response()->json(null, 204);
+        if ($this->players->delete($id)) {
+            return response()->json(null, 204);
+        } else {
+            return response()->json(null, 404);
+        }
     }
 
 }

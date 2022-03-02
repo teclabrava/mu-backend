@@ -29,10 +29,10 @@ class Players
         $page_count = $query->count();
         $total_count = Player::count();
         $last = $items->last();
-        $paramerter_q=($q==null)?"":"q=$q";
-        $paramerter_per_page=($per_page==10)?"":"&per_page=$per_page";
-        $next_link="/players?$paramerter_q$paramerter_per_page&last={$last->id}";
-        if($page_count<$per_page ) {
+        $paramerter_q = ($q == null) ? "" : "q=$q";
+        $paramerter_per_page = ($per_page == 10) ? "" : "&per_page=$per_page";
+        $next_link = "/players?$paramerter_q$paramerter_per_page&last={$last->id}";
+        if ($page_count < $per_page) {
             $next_link = null;
         }
         $data = [
@@ -63,22 +63,30 @@ class Players
 
     public function findById($id)
     {
-        return Player::findOrFail($id);
+        return Player::find($id);
     }
 
     public function update($request, $id)
     {
         $player = $this->findById($id);
-        $player->update($request->all());
-        $player->addAvatar($request["avatar"]);
-        $player->save();
-        return $player;
+        if ($player) {
+            $player->update($request->all());
+            $player->addAvatar($request["avatar"]);
+            $player->save();
+            return $player;
+        }
+        return null;
+
     }
 
     public function destroy($id)
     {
         $player = $this->findById($id);
-        $player->delete();
+        if ($player) {
+            $player->delete();
+            return true;
+        }
+        return null;
     }
 
 
