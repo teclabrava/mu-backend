@@ -74,16 +74,16 @@ jobs:
           echo BUCKET_REGION=${{ secrets.BUCKET_REGION }} >> .env
           echo BUCKET_NAME=${{ secrets.BUCKET_NAME }} >> .env
 
-          if [ "${GIHUB_REF##*/}" == "staging" ]
+          if [ ${GIHUB_REF##*/} == "staging" ]
           then
             echo BUCKET_URL=https://staging.teclabrava.com >> .env
-          elif [ "${GIHUB_REF##*/}" == "develop" ]
+          elif [ ${GIHUB_REF##*/} == "develop" ]
           then
             echo BUCKET_URL=https://develop.teclabrava.com >> .env
           fi
       - name: Deployment in AWS
         run: |
-          if [ "${GIHUB_REF##*/}" == "staging" ]
+          if [ ${GIHUB_REF##*/} == "staging" ]
           then
             rm -f serverless.yml
             cp serverless.staging.yml serverless.yml
