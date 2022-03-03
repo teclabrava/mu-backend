@@ -68,7 +68,7 @@ resources:
           WriteCapacityUnits: 1
 custom:
   customDomain:
-    domainName: feature.teclabrava.com
+    domainName: staging.teclabrava.com
     stage: ${opt:stage, 'local'}
     basePath: "${self:app}/${opt:stage, 'local'}/v1"
     createRoute53Record: true
