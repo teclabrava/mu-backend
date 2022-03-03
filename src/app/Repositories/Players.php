@@ -12,10 +12,11 @@ class Players
         $q = request('q', null);
         $last_id = request('last', null);
         $per_page = request('per_page', 10);
+        $player = new Player();
 
-        $query = Player::query();
-        $query1 = Player::query();
-        $query2 = Player::query();
+        $query = $player->newQuery();
+        $query1 = $player->newQuery();
+        $query2 = $player->newQuery();
 
         if ($last_id) {
             $query->after(Player::findOrFail($last_id));
