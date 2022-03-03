@@ -65,21 +65,13 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
-          - AttributeName: nickname
-            AttributeType: S
-          - AttributeName: avatar
-            AttributeType: S
-          - AttributeName: status
-            AttributeType: S
           - AttributeName: ranking
             AttributeType: N
-          - AttributeName: created_at
-            AttributeType: S
-          - AttributeName: updated_at
-            AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
+          - AttributeName: ranking
+            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
