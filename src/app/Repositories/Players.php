@@ -19,30 +19,30 @@ class Players
         $query2 = $player->newQuery();
 
         if ($last_id) {
-            $query->after(Player::findOrFail($last_id));
-            $query1->after(Player::findOrFail($last_id));
-            $query2->after(Player::findOrFail($last_id));
+            $query=$query->after(Player::findOrFail($last_id));
+            $query1=$query1->after(Player::findOrFail($last_id));
+            $query2=$query2->after(Player::findOrFail($last_id));
         }
 
         if ($q != null && $q != "") {
-            $query->orWhere('id', 'contains', $q)
+            $query=$query->orWhere('id', 'contains', $q)
                 ->orWhere('nickname', 'contains', $q)
                 ->orWhere('status', 'contains', $q)
                 ->orWhere('ranking', 'contains', $q);
-            $query1->orWhere('id', 'contains', $q)
+            $query1=$query1->orWhere('id', 'contains', $q)
                 ->orWhere('nickname', 'contains', $q)
                 ->orWhere('status', 'contains', $q)
                 ->orWhere('ranking', 'contains', $q);
-            $query2->orWhere('id', 'contains', $q)
+            $query2=$query2->orWhere('id', 'contains', $q)
                 ->orWhere('nickname', 'contains', $q)
                 ->orWhere('status', 'contains', $q)
                 ->orWhere('ranking', 'contains', $q);
         }
         $total_count = $query->count();
-        $query1->limit($per_page);
-        $query2->limit($per_page);
+        $query1=$query1->limit($per_page);
+        $query2=$query2->limit($per_page);
         $items = $query1->all();
-        $page_count = count($query2->all());
+        $page_count =$query2->count();
         $last = $items->last();
         $paramerter_q = ($q == null) ? "" : "q=$q";
         $paramerter_per_page = ($per_page == 10) ? "" : "&per_page=$per_page";
