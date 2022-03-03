@@ -55,10 +55,12 @@ aws configure
 Run batch user creation 200 at a time
 lambda function name is: player-<ENVIRONMENT>-console
 ```bash
+cd src
 "vendor\bin\bref" cli -r us-east-2 "player-develop-console" -- db:seed --class=PlayerSeeder
 ```
 Clean the user table
 ```bash
+cd src
 "vendor\bin\bref" cli -r us-east-2 "player-develop-console" -- db:seed --class=PlayerClearSeeder
 ```
 Create 3000 players
@@ -68,7 +70,7 @@ while [ $i -le 20 ]
 do
   players=$(( $i * 100 ));
   echo "Creating $players playes";
-  "vendor\bin\bref" cli -r us-east-2 "player-develop-console" -- db:seed --class=PlayerSeeder;
+  "vendor\bin\bref" cli -r us-east-2 "player-develop-console" -- db:seed --class=PlayerSeeder
   i=$(( $i + 1 ));
 done
 ```

@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Player;
 use Illuminate\Database\Seeder;
-use BaoPham\DynamoDb\Facades\DynamoDb;
 
 class PlayerSeeder extends Seeder
 {
