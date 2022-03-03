@@ -35,7 +35,7 @@ class Player extends Model
 
     protected $dynamoDbIndexKeys = [
         'ranking_index' => [
-            'hash' => 'ranking',
+            'range' => 'ranking',
         ],
     ];
 }

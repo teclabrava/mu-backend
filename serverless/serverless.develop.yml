@@ -9,7 +9,7 @@ provider:
   httpApi:
     cors:
       allowedOrigins:
-        - https://api.teclabrava.com
+        - https://develop.teclabrava.com
         - https://teclabrava.com
       allowedHeaders:
         - Content-Type
@@ -65,13 +65,9 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
-          - AttributeName: ranking
-            AttributeType: N
         KeySchema:
           - AttributeName: id
             KeyType: HASH
-          - AttributeName: ranking
-            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
