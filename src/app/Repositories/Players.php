@@ -25,15 +25,15 @@ class Players
         }
 
         if ($q != null && $q != "") {
-            $query->where('id', 'contains', $q)
+            $query->orWhere('id', 'contains', $q)
                 ->orWhere('nickname', 'contains', $q)
                 ->orWhere('status', 'contains', $q)
                 ->orWhere('ranking', 'contains', $q);
-            $query1->where('id', 'contains', $q)
+            $query1->orWhere('id', 'contains', $q)
                 ->orWhere('nickname', 'contains', $q)
                 ->orWhere('status', 'contains', $q)
                 ->orWhere('ranking', 'contains', $q);
-            $query2->where('id', 'contains', $q)
+            $query2->orWhere('id', 'contains', $q)
                 ->orWhere('nickname', 'contains', $q)
                 ->orWhere('status', 'contains', $q)
                 ->orWhere('ranking', 'contains', $q);
