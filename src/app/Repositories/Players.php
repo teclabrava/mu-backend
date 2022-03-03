@@ -26,20 +26,18 @@ class Players
         if ($q != null && $q != "") {
             $query->where('id', 'contains', $q)
                 ->orWhere('nickname', 'contains', $q)
-                ->orWhere('status', 'contains', $q);
+                ->orWhere('status', 'contains', $q)
+                ->orWhere('ranking', 'contains', $q);
             $query1->where('id', 'contains', $q)
                 ->orWhere('nickname', 'contains', $q)
-                ->orWhere('status', 'contains', $q);
+                ->orWhere('status', 'contains', $q)
+                ->orWhere('ranking', 'contains', $q);
             $query2->where('id', 'contains', $q)
                 ->orWhere('nickname', 'contains', $q)
-                ->orWhere('status', 'contains', $q);
-            if (is_numeric($q) && is_int($q + 0)) {
-                $query->orWhere('ranking', '=', $q);
-                $query1->orWhere('ranking', '=', $q);
-                $query2->orWhere('ranking', '=', $q);
-            }
+                ->orWhere('status', 'contains', $q)
+                ->orWhere('ranking', 'contains', $q);
         }
-        $total_count =  $query->count();
+        $total_count = $query->count();
         $query1->limit($per_page);
         $query2->limit($per_page);
         $items = $query1->all();
@@ -84,9 +82,9 @@ class Players
     public function update($request, $id)
     {
         $player = $this->findById($id);
-        $playerRequest=$request->all();
+        $playerRequest = $request->all();
         if ($player) {
-            $player->update( $playerRequest);
+            $player->update($playerRequest);
             $player->addAvatar($playerRequest["avatar"]);
             $player->save();
             return $player;
