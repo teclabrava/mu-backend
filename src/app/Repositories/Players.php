@@ -13,7 +13,10 @@ class Players
         $last_id = request('last', null);
         $per_page = request('per_page', 10);
 
-        $query = Player::query();
+        $query = Player::query() ->decorate(function (RawDynamoDbQuery $raw) {
+            // desc order
+            $raw->query['ScanIndexForward'] = false;
+        });
         if ($last_id) {
             $query->after(Player::findOrFail($last_id));
         }
