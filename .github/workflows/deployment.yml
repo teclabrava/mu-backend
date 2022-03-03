@@ -5,8 +5,21 @@ on:
       - 'production'
       - 'develop'
 jobs:
+  test-lint:
+    name: Run Lint tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Run PHPUnit tests
+        run: |
+          cd src/
+          composer install
+          composer require overtrue/phplint:^4.0 --dev -vvv
+          vendor/bin/phplint
   test-unit:
-    name: Run unit tests
+    name: Run Unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1

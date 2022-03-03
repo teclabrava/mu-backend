@@ -72,8 +72,17 @@ do
   i=$(( $i + 1 ));
 done
 ```
+##Run Lint tests
+```bash
+cd src
+composer install 
+composer require overtrue/phplint:^4.0 --dev -vvv
+vendor\bin\phplint 
+```
 ##Run unit tests
 It has been implemented in the folder src/tests/unit the unit test  for actions index, show, and delete
 ```bash
+cd src
+composer install 
 vendor\bin\phpunit
 ```

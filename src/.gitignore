@@ -7,3 +7,5 @@ public/assets
 
 
 
+/.phplint-cache
+!/.phpunit.result.cache

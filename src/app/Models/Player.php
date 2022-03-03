@@ -10,7 +10,11 @@ class Player extends Model
 {
     use HasFactory, HasAvatar, TraitUuid;
 
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $primaryKey = 'id';
     /**
      * The attributes that are mass assignable.
@@ -20,6 +24,7 @@ class Player extends Model
     protected $fillable = [
         'id', 'nickname', 'status', 'ranking', 'avatar', 'avatar_pretty'
     ];
+
     protected $appends = ['avatar_url', 'avatar_thumb_url'];
 
     public function __construct(array $attributes = [])

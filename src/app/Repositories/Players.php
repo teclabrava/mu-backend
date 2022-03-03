@@ -22,7 +22,7 @@ class Players
             $query->where('id', 'contains', $q)
                 ->orWhere('nickname', 'contains', $q)
                 ->orWhere('status', 'contains', $q);
-            if(is_numeric($q) && is_int($q +0)) {
+            if (is_numeric($q) && is_int($q + 0)) {
                 $query->orWhere('id', '=', $q);
             }
         }
@@ -35,12 +35,12 @@ class Players
         $last = $items->last();
         $paramerter_q = ($q == null) ? "" : "q=$q";
         $paramerter_per_page = ($per_page == 10) ? "" : "&per_page=$per_page";
-        $next_link = ($last)? "player?$paramerter_q$paramerter_per_page&last={$last->id}": "" ;
+        $next_link = ($last) ? "player?$paramerter_q$paramerter_per_page&last={$last->id}" : "";
         if ($page_count < $per_page) {
             $next_link = null;
         }
         $data = [
-            "last" =>  ($last)? $last->id: null,
+            "last" => ($last) ? $last->id : null,
             "per_page" => $per_page,
             "page_count" => $page_count,
             "total_count" => $total_count,
@@ -51,7 +51,6 @@ class Players
                 "next" => $next_link,
             ]
         ];
-
 
         return $data;
     }
