@@ -77,9 +77,9 @@ resources:
           WriteCapacityUnits: 1
 custom:
   customDomain:
-    domainName: api.teclabrava.com
+    domainName: api.develop.teclabrava.com
     stage: ${opt:stage, 'local'}
-    basePath: "${self:app}/${opt:stage, 'local'}/v1"
+    basePath: "${self:app}/v1"
     createRoute53Record: true
     autoDomain: true
     certificateName: "*.teclabrava.com"
