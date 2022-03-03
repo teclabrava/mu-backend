@@ -81,14 +81,12 @@ jobs:
           then
             echo BUCKET_URL=https://develop.teclabrava.com >> .env
           fi
-
       - name: Deployment in AWS
         run: |
           if [ "${GIHUB_REF##*/}" == "staging" ]
           then
-            serverless deploy --verbose --config=serverless.staging.yml --stage ${GITHUB_REF##*/}
-          elif [ "${GIHUB_REF##*/}" == "develop" ]
-          then
-            serverless deploy --verbose --config=serverless.yml --stage ${GITHUB_REF##*/}
+            rm -f serverless.yml
+            cp serverless.staging.yml serverless.yml
           fi
+          serverless deploy --verbose --config=serverless.yml --stage ${GITHUB_REF##*/}
 
