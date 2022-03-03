@@ -38,10 +38,11 @@ class Players
                 ->orWhere('status', 'contains', $q)
                 ->orWhere('ranking', 'contains', $q);
         }
-        $total_count = $query->count();
+
         $query1=$query1->limit($per_page);
         $query2=$query2->limit($per_page);
         $items = $query1->all();
+
         $page_count =$query2->count();
         $last = $items->last();
         $paramerter_q = ($q == null) ? "" : "q=$q";
@@ -50,6 +51,7 @@ class Players
         if ($page_count < $per_page) {
             $next_link = null;
         }
+        $total_count = $query->count();
         $data = [
             "last" => ($last) ? $last->id : null,
             "per_page" => $per_page,
