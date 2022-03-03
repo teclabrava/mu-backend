@@ -58,6 +58,7 @@ class Players
     public function store($request)
     {
         $playerRequest = $request->all();
+        $playerRequest["ranking"]=$playerRequest["ranking"]+0;
         $player = new Player($playerRequest);
         $player->addAvatar($playerRequest["avatar"]);
         $player->save();
@@ -72,9 +73,11 @@ class Players
     public function update($request, $id)
     {
         $player = $this->findById($id);
+        $playerRequest=$request->all();
+        $playerRequest["ranking"]=$playerRequest["ranking"]+0;
         if ($player) {
-            $player->update($request->all());
-            $player->addAvatar($request["avatar"]);
+            $player->update( $playerRequest["ranking"]);
+            $player->addAvatar($playerRequest["avatar"]);
             $player->save();
             return $player;
         }
