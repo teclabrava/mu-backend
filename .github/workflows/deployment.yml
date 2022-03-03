@@ -2,7 +2,7 @@ name: Deployment Serverless
 on:
   push:
     branches:
-      - 'production'
+      - 'feature'
       - 'develop'
 jobs:
   test-lint:
@@ -74,9 +74,9 @@ jobs:
           echo BUCKET_REGION=${{ secrets.BUCKET_REGION }} >> .env
           echo BUCKET_NAME=${{ secrets.BUCKET_NAME }} >> .env
 
-          if [ "${GIHUB_REF##*/}" == "production" ]
+          if [ "${GIHUB_REF##*/}" == "feature" ]
           then
-            echo BUCKET_URL=https://www.teclabrava.com >> .env
+            echo BUCKET_URL=https://feature.teclabrava.com >> .env
           elif [ "${GIHUB_REF##*/}" == "develop" ]
           then
             echo BUCKET_URL=https://develop.teclabrava.com >> .env
@@ -84,4 +84,11 @@ jobs:
 
       - name: Deployment in AWS
         run: |
-          serverless deploy --verbose --config=serverless.yml --stage ${GITHUB_REF##*/}
+          if [ "${GIHUB_REF##*/}" == "feature" ]
+          then
+            serverless deploy --verbose --config=serverless.feature.yml --stage ${GITHUB_REF##*/}
+          elif [ "${GIHUB_REF##*/}" == "develop" ]
+          then
+            serverless deploy --verbose --config=serverless.yml --stage ${GITHUB_REF##*/}
+          fi
+
