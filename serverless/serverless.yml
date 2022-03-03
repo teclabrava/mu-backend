@@ -9,7 +9,8 @@ provider:
   httpApi:
     cors:
       allowedOrigins:
-        - https://*.teclabrava.com
+        - https://api.teclabrava.com
+        - https://teclabrava.com
       allowedHeaders:
         - Content-Type
         - Authorization
