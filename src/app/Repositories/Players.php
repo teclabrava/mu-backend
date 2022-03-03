@@ -13,10 +13,9 @@ class Players
         $last_id = request('last', null);
         $per_page = request('per_page', 10);
 
-        $query = Player::query() ->decorate(function (RawDynamoDbQuery $raw) {
-            // desc order
+        $query = Player::query()->decorate(function (RawDynamoDbQuery $raw) {
             $raw->query['ScanIndexForward'] = false;
-        });
+        })->withIndex('ranking-hash-index');
         if ($last_id) {
             $query->after(Player::findOrFail($last_id));
         }
@@ -61,7 +60,6 @@ class Players
     public function store($request)
     {
         $playerRequest = $request->all();
-        $playerRequest["ranking"]=$playerRequest["ranking"]+0;
         $player = new Player($playerRequest);
         $player->addAvatar($playerRequest["avatar"]);
         $player->save();
@@ -77,9 +75,8 @@ class Players
     {
         $player = $this->findById($id);
         $playerRequest=$request->all();
-        $playerRequest["ranking"]=$playerRequest["ranking"]+0;
         if ($player) {
-            $player->update( $playerRequest["ranking"]);
+            $player->update( $playerRequest);
             $player->addAvatar($playerRequest["avatar"]);
             $player->save();
             return $player;
