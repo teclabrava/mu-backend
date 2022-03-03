@@ -60,7 +60,7 @@ return [
             'key' => env('BUCKET_KEY'),
             'secret' => env('BUCKET_SECRET'),
             'region' => env('BUCKET_REGION'),
-            'bucket' => env('BUCKET_NAME').'-'.env('APP_ENV'),
+            'bucket' => env('BUCKET_NAME'),
             'url' => env('BUCKET_URL'),
             'endpoint' => env('BUCKET_ENDPOINT'),
             'use_path_style_endpoint' => env('BUCKET_AWS_USE_PATH_STYLE_ENDPOINT', false),
