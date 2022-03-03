@@ -6,15 +6,6 @@ provider:
   runtime: provided.al2
   stage: ${opt:stage, 'local'}
   region: ${env:AWS_REGION, 'us-east-2'}
-#  httpApi:
-#    authorizers:
-#      someJwtAuthorizer:
-#        type: jwt
-#        identitySource: $request.header.Authorization
-#        issuerUrl: https://cognito-idp.${region}.amazonaws.com/${cognitoPoolId}
-#        audience:
-#          - ${client1Id}
-#          - ${client2Id}
 plugins:
   - ./vendor/bref/bref
   - ./vendor/bref/extra-php-extensions
@@ -50,6 +41,15 @@ package:
 
 resources:
   Resources:
+    GatewayResponseDefault4XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
     PlayerTableResource:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -57,12 +57,21 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
+          - AttributeName: nickname
+            AttributeType: S
+          - AttributeName: avatar
+            AttributeType: S
+          - AttributeName: status
+            AttributeType: S
+          - AttributeName: ranking
+            AttributeType: N
+          - AttributeName: created_at
+            AttributeType: S
+          - AttributeName: updated_at
+            AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
 custom:
   customDomain:
     domainName: api.teclabrava.com
