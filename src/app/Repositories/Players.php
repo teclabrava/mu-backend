@@ -42,8 +42,8 @@ class Players
         $total_count =  $query->count();
         $query1->limit($per_page);
         $query2->limit($per_page);
-        $items = $query1->get();
-        $page_count = $query2->count();
+        $items = $query1->all();
+        $page_count = count($query2->all());
         $last = $items->last();
         $paramerter_q = ($q == null) ? "" : "q=$q";
         $paramerter_per_page = ($per_page == 10) ? "" : "&per_page=$per_page";
