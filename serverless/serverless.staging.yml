@@ -6,23 +6,6 @@ provider:
   runtime: provided.al2
   stage: ${opt:stage, 'local'}
   region: ${env:AWS_REGION, 'us-east-2'}
-  httpApi:
-    cors:
-      allowedOrigins:
-        - https://api.teclabrava.com
-        - https://teclabrava.com
-      allowedHeaders:
-        - Content-Type
-        - Authorization
-      allowedMethods:
-        - GET
-        - POST
-        - PUT
-        - DELETE
-      allowCredentials: true
-      exposedResponseHeaders:
-        - Special-Response-Header
-      maxAge: 6000 # In seconds
 plugins:
   - ./vendor/bref/bref
   - ./vendor/bref/extra-php-extensions
@@ -77,7 +60,7 @@ resources:
           WriteCapacityUnits: 1
 custom:
   customDomain:
-    domainName: api.teclabrava.com
+    domainName: staging.teclabrava.com
     stage: ${opt:stage, 'local'}
     basePath: "${self:app}/${opt:stage, 'local'}/v1"
     createRoute53Record: true

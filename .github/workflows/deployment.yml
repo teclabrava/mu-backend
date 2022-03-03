@@ -2,7 +2,7 @@ name: Deployment Serverless
 on:
   push:
     branches:
-      - 'production'
+      - 'staging'
       - 'develop'
 jobs:
   test-lint:
@@ -32,7 +32,7 @@ jobs:
           vendor/bin/phpunit
   deploy:
     name: Deploy of Serverless
-    needs: test-unit
+    needs: [test-lint, test-unit]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -74,14 +74,19 @@ jobs:
           echo BUCKET_REGION=${{ secrets.BUCKET_REGION }} >> .env
           echo BUCKET_NAME=${{ secrets.BUCKET_NAME }} >> .env
 
-          if [ "${GIHUB_REF##*/}" == "production" ]
+          if [ ${GIHUB_REF##*/} == "staging" ]
           then
-            echo BUCKET_URL=https://www.teclabrava.com >> .env
-          elif [ "${GIHUB_REF##*/}" == "develop" ]
+            echo BUCKET_URL=https://staging.teclabrava.com >> .env
+          elif [ ${GIHUB_REF##*/} == "develop" ]
           then
             echo BUCKET_URL=https://develop.teclabrava.com >> .env
           fi
-
       - name: Deployment in AWS
         run: |
+          if [ ${GIHUB_REF##*/} == "staging" ]
+          then
+            rm -f serverless.yml
+            cp serverless.staging.yml serverless.yml
+          fi
           serverless deploy --verbose --config=serverless.yml --stage ${GITHUB_REF##*/}
+
