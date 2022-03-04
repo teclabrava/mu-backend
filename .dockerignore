@@ -1,0 +1,5 @@
+.github
+.git
+docs
+src/vendor
+serverless/node_modules

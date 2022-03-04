@@ -4,3 +4,22 @@ Homestead.json
 Homestead.yaml
 .env
 .phpunit.result.cache
+/.serverless
+/.dynamodb
+/.serverless-offline
+composer.lock
+
+/storage
+bootstrap/cache
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+.env.backup
+docker-compose.override.yml
+npm-debug.log
+yarn-error.log
+/.vscode
+package-lock.json
+# Local S3
+public/assets

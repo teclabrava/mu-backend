@@ -1,0 +1,62 @@
+app: manu
+service: player
+frameworkVersion: '3'
+provider:
+  name: aws
+  stage: local
+  region: 'us-east-2'
+plugins:
+  - serverless-s3-local
+  - serverless-offline
+  - serverless-dynamodb-local
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!public/storage'
+    - '!public/assets'
+    - '!resources/assets/**'
+    - '!storage/**'
+    - '!tests/**'
+
+resources:
+  Resources:
+    PlayerTableLocal:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: "local.player"
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    BucketLocal:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: manu-frontend-local
+custom:
+  dynamodb:
+    stages:
+      - local
+    start:
+      port: 8000
+      inMemory: true
+      heapInitial: 200m
+      heapMax: 1g
+      migrate: true
+      seed: true
+      convertEmptyValues: true
+    seed:
+      player:
+        sources:
+          - table: "${self:provider.stage}.player"
+            sources: [ ./database/seeders/players.json ]
+  s3:
+    stages:
+      - local
+    port: 4569
+    address: '0.0.0.0'
+    directory: ./public/assets

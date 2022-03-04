@@ -1,0 +1,12 @@
+vendor
+.env
+composer.lock
+storage
+bootstrap/cache
+public/assets
+
+
+
+/.phplint-cache
+!/.phpunit.result.cache
+/build/phplint.cache

@@ -1,0 +1,18 @@
+version: "3"
+services:
+  api:
+    container_name: manu-backend
+    build: .
+    ports:
+      - "8080:8080"
+      - "4569:4569"
+    volumes:
+      - ./src/env.example.local:/app/.env
+      - ./src/public/assets:/app/public/assets
+      - ./src/app:/app/app
+      - ./src/config:/app/config
+      - ./src/bootstrap:/app/bootstrap
+      - ./src/database:/app/database
+      - ./src/routes:/app/routes
+      - ./src/test:/app/test
+

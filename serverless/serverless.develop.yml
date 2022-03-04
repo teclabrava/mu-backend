@@ -1,0 +1,84 @@
+app: manu
+service: player
+frameworkVersion: '3'
+provider:
+  name: aws
+  runtime: provided.al2
+  stage: ${opt:stage, 'local'}
+  region: ${env:AWS_REGION, 'us-east-2'}
+  httpApi:
+    cors:
+      allowedOrigins:
+        - https://develop.teclabrava.com
+        - https://teclabrava.com
+      allowedHeaders:
+        - Content-Type
+        - Authorization
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+      allowCredentials: true
+      exposedResponseHeaders:
+        - Special-Response-Header
+      maxAge: 6000 # In seconds
+plugins:
+  - ./vendor/bref/bref
+  - ./vendor/bref/extra-php-extensions
+  - serverless-domain-manager
+  - serverless-dotenv-plugin
+functions:
+  app:
+    handler: 'public/index.php'
+    description: 'CRUD operations on the player table'
+    timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
+    layers:
+      - ${bref:layer.php-80-fpm}
+      - ${bref-extra:gd-php-80}
+    events:
+      - httpApi: '*'
+  console:
+    description: 'remote command execution'
+    timeout: 60
+    handler: artisan
+    layers:
+      - ${bref:layer.php-80}
+      - ${bref:layer.console}
+
+# Exclude files from deployment
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!public/storage'
+    - '!public/assets'
+    - '!resources/assets/**'
+    - '!storage/**'
+    - '!tests/**'
+
+resources:
+  Resources:
+    PlayerTableResource:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: "${self:provider.stage}.player"
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+custom:
+  customDomain:
+    domainName: api-develop.teclabrava.com
+    stage: ${opt:stage, 'local'}
+    basePath: "${self:app}/v1"
+    createRoute53Record: true
+    autoDomain: true
+    certificateName: "*.teclabrava.com"
+    securityPolicy: tls_1_2
+    endpointType: regional
+    apiType: http
