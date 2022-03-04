@@ -7,8 +7,8 @@ This project manage the Mañu's backend
 - Severless 3.x
 - awscliv2 
 - AWS account with S3, DynamoDB, Lambda, API Gateway and Route53
-- Java 8 *(optional para ambiente local)*
-- Docker, docker-compose *(optional para ambiente local)*
+- Java 8 *(optional local environment)*
+- Docker, docker-compose *(optional local environment)*
 
 ## From the command line run
 ```bash
