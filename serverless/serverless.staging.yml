@@ -44,7 +44,6 @@ resources:
     PlayerTableResource:
       Type: AWS::DynamoDB::Table
       Properties:
-        BillingMode: PAY_PER_REQUEST
         TableName: staging.player
         AttributeDefinitions:
           - AttributeName: id
