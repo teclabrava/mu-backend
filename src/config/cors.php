@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'allow_origins' => explode(env(',', 'CORS_ALLOW_ORIGINS')),
+    'allow_origins' => explode(env( 'CORS_ALLOW_ORIGINS','*' ), ','),
 
     /*
     |--------------------------------------------------------------------------

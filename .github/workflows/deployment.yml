@@ -64,8 +64,6 @@ jobs:
           echo APP_URL=https://${GITHUB_REF##*/}.teclabrava.com >> .env
 
           if [ ${GITHUB_REF##*/} == "develop" ]; then
-            echo CORS_ALLOW_ORIGINS=* >> .env
-          else
             echo CORS_ALLOW_ORIGINS=${APP_URL} >> .env
           fi
 
