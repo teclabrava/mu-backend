@@ -62,7 +62,7 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         BillingMode: PAY_PER_REQUEST
-        TableName: "${self:provider.stage}.player"
+        TableName: develop.player
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
