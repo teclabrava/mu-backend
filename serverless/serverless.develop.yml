@@ -9,7 +9,7 @@ provider:
   httpApi:
     cors:
       allowedOrigins:
-        - https://api.teclabrava.com
+        - https://develop.teclabrava.com
         - https://teclabrava.com
       allowedHeaders:
         - Content-Type
@@ -62,7 +62,7 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         BillingMode: PAY_PER_REQUEST
-        TableName: local.player
+        TableName: "${self:provider.stage}.player"
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
