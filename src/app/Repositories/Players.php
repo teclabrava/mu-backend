@@ -15,8 +15,9 @@ class Players
         $player = new Player();
 
         $query = $player->newQuery();
-        if ($last_id) {
-            $query=$query->after(Player::where('subjectIndex', $last_id)->first());
+
+        if ($last_id && $last_player = $this->findById($last_id)) {
+            $query=$query->after($last_player);
         }
         $query->withIndex('rankingIndex');
         $query=$query->decorate(function (RawDynamoDbQuery $raw) {
@@ -72,7 +73,7 @@ class Players
     public function findById($id)
     {
         $player= Player::query()->where('id', $id)->first();
-        return$player;
+        return $player;
     }
 
     public function update($request, $id)
