@@ -32,10 +32,10 @@ class Player extends Model
         $this->table = env('DYNAMODB_PREFIX', 'local') . '.player';
         parent::__construct($attributes);
     }
-
     protected $dynamoDbIndexKeys = [
-        'ranking_index' => [
-            'hash' => 'ranking',
-        ],
+        'rankingIndex' => [
+            'range' => 'ranking',
+            'hash' => 'id'
+        ]
     ];
 }

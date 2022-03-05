@@ -34,11 +34,11 @@ COPY serverless/package.json /app/package.json
 RUN npm install
 
 COPY src/ .
-COPY serverless/ .
 
 RUN composer install
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY serverless/ .
 
 EXPOSE 8080
 EXPOSE 4569

@@ -41,23 +41,34 @@ package:
 
 resources:
   Resources:
-    PlayerTableResource:
+    PlayerTableLocal:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: "${self:provider.stage}.player"
+        BillingMode: PAY_PER_REQUEST
+        TableName: local.player
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
           - AttributeName: ranking
-            AttributeType: N
+            AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
-          - AttributeName: ranking
-            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+        GlobalSecondaryIndexes:
+          - IndexName: rankingIndex
+            KeySchema:
+              - AttributeName: id
+                KeyType: HASH
+              - AttributeName: ranking
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
 custom:
   customDomain:
     domainName: api-staging.teclabrava.com

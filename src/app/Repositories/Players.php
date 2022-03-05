@@ -12,33 +12,38 @@ class Players
         $q = request('q', null);
         $last_id = request('last', null);
         $per_page = request('per_page', 10);
+        $player = new Player();
 
-        $query = Player::query();
+        $query = $player->newQuery();
         if ($last_id) {
-            $query->after(Player::findOrFail($last_id));
+            $query=$query->after(Player::where('subjectIndex', $last_id)->first());
+        }
+        $query->withIndex('rankingIndex');
+        $query=$query->decorate(function (RawDynamoDbQuery $raw) {
+            // desc order
+            $raw->query['ScanIndexForward'] = false;
+        });
+        if ($q != null && $q != "") {
+            $query=$query->where('id', 'contains',$q )
+                ->orWhere('nickname', 'contains', $q)
+                ->orWhere('status', 'contains', $q)
+                ->orWhere('ranking', 'contains', $q);
         }
 
-        if ($q != null && $q != "") {
-            $query->where('id', 'contains', $q)
-                ->orWhere('nickname', 'contains', $q)
-                ->orWhere('status', 'contains', $q);
-            if (is_numeric($q) && is_int($q + 0)) {
-                $query->orWhere('id', '=', $q);
-            }
-        }
-        $query_total = clone $query->getQuery();
-        $total_count = $query_total->count();
-        $query->limit($per_page);
+
+        $total_count = $query->count();
+        $query=$query->limit($per_page);
         $items = $query->get();
-        $query_page_count = clone $query->getQuery();
-        $page_count = $query_page_count->count();
+        $page_count =$query->count();
         $last = $items->last();
+
         $paramerter_q = ($q == null) ? "" : "q=$q";
         $paramerter_per_page = ($per_page == 10) ? "" : "&per_page=$per_page";
         $next_link = ($last) ? "player?$paramerter_q$paramerter_per_page&last={$last->id}" : "";
         if ($page_count < $per_page) {
             $next_link = null;
         }
+
         $data = [
             "last" => ($last) ? $last->id : null,
             "per_page" => $per_page,
@@ -66,15 +71,21 @@ class Players
 
     public function findById($id)
     {
-        return Player::find($id);
+        $player= Player::query()->where('id', $id)->first();
+        return$player;
     }
 
     public function update($request, $id)
     {
-        $player = $this->findById($id);
+        $player= new Player();
+        $player = $player->newQuery()->where('id', $id)->first();
+        $playerRequest = $request->all();
+        $avatar = $playerRequest["avatar"];
+        unset($playerRequest["_method"]);
+        unset($playerRequest["avatar"]);
         if ($player) {
-            $player->update($request->all());
-            $player->addAvatar($request["avatar"]);
+            $player->update($playerRequest);
+            $player->addAvatar($avatar);
             $player->save();
             return $player;
         }

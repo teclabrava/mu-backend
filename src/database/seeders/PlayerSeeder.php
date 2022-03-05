@@ -16,7 +16,7 @@ class PlayerSeeder extends Seeder
     {
         Player::factory()
             ->connection(config('dynamodb.default'))
-            ->count(100)
+            ->count(3)
             ->create();
     }
 }
