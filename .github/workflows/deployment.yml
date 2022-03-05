@@ -60,6 +60,15 @@ jobs:
       - name: Prepare environment
         run: |
           cp env.example .env
+
+          echo APP_URL=https://${GITHUB_REF##*/}.teclabrava.com >> .env
+
+          if [ ${GITHUB_REF##*/} == "develop" ]; then
+            echo CORS_ALLOW_ORIGINS=* >> .env
+          else
+            echo CORS_ALLOW_ORIGINS=${APP_URL} >> .env
+          fi
+
           echo APP_ENV=${GITHUB_REF##*/} >> .env
           echo APP_DEBUG=true >> .env
 
