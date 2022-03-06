@@ -6,6 +6,7 @@ services:
     ports:
       - "8080:8080"
       - "4569:4569"
+    command: ["/usr/bin/supervisord"]
     volumes:
       - ./src/env.example.local:/app/.env
       - ./src/public/assets:/app/public/assets
@@ -14,5 +15,24 @@ services:
       - ./src/bootstrap:/app/bootstrap
       - ./src/database:/app/database
       - ./src/routes:/app/routes
-      - ./src/test:/app/test
-
+      - ./src/tests:/app/tests
+  console:
+    container_name: manu-backend-console
+    build: .
+    environment:
+      AWS_REGION: ${AWS_REGION}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      STAGE: develop
+    command: ['bash','-c', 'cd /app/ && cat env.example env.deploy > /tmp/env && envsubst < /tmp/env > .env && sleep infinity']
+    volumes:
+      - ./src/public/assets:/app/public/assets
+      - ./src/app:/app/app
+      - ./src/config:/app/config
+      - ./src/bootstrap:/app/bootstrap
+      - ./src/database:/app/database
+      - ./src/routes:/app/routes
+      - ./src/tests:/app/tests
+      - ./serverless/serverless.local.yml:/app/serverless.local.yml
+      - ./serverless/serverless.develop.yml:/app/serverless.develop.yml
+      - ./serverless/serverless.staging.yml:/app/serverless.staging.yml

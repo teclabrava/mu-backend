@@ -55,7 +55,7 @@ package:
     - '!resources/assets/**'
     - '!storage/**'
     - '!tests/**'
-
+    - '!aws'
 resources:
   Resources:
     PlayerTableLocal:
@@ -71,8 +71,8 @@ resources:
           - AttributeName: id
             KeyType: HASH
         ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
         GlobalSecondaryIndexes:
           - IndexName: rankingIndex
             KeySchema:
@@ -83,8 +83,8 @@ resources:
             Projection:
               ProjectionType: ALL
             ProvisionedThroughput:
-              ReadCapacityUnits: 1
-              WriteCapacityUnits: 1
+              ReadCapacityUnits: 5
+              WriteCapacityUnits: 5
 custom:
   customDomain:
     domainName: api-develop.teclabrava.com

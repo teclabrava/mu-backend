@@ -1,5 +1,9 @@
 .github
 .git
+.env
+src/.env
 docs
 src/vendor
 serverless/node_modules
+docker-compose.yml
+Dockefile

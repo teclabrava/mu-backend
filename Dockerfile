@@ -7,11 +7,14 @@ RUN apt-get update && apt-get install -qy \
     ca-certificates \
     wget \
     curl \
+    gettext-base \
     supervisor \
     gnupg-agent \
     software-properties-common
 RUN mkdir -p /var/log/supervisor
 
+RUN cd /tmp/ && curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && rm awscliv2.zip -f && ./aws/install
 WORKDIR /app
 
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
@@ -26,6 +29,7 @@ RUN apt-get update &&  \
 RUN apt-get update && curl -sL https://deb.nodesource.com/setup_16.x | bash - &&  apt-get -y install nodejs
 
 RUN npm install -g serverless
+
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 COPY --from=amazon/dynamodb-local:latest /home/dynamodblocal /app/.dynamodb
 
@@ -33,6 +37,7 @@ COPY serverless/package.json /app/package.json
 
 RUN npm install
 
+COPY env.deploy .
 COPY src/ .
 
 RUN composer install
@@ -42,6 +47,4 @@ COPY serverless/ .
 
 EXPOSE 8080
 EXPOSE 4569
-
-CMD ["/usr/bin/supervisord"]
 

@@ -3,44 +3,54 @@
 namespace App\Repositories;
 
 use App\Models\Player;
+use BaoPham\DynamoDb\DynamoDbQueryBuilder;
+use BaoPham\DynamoDb\Facades\DynamoDb;
 use BaoPham\DynamoDb\RawDynamoDbQuery;
+use Illuminate\Support\Str;
 
 class Players
 {
     public function search()
     {
+
+
         $q = request('q', null);
         $last_id = request('last', null);
-        $per_page = request('per_page', 10);
+        $per_page = 10;
         $player = new Player();
+        $query = new DynamoDbQueryBuilder($player);
+       // $query = $player->newQuery();
 
-        $query = $player->newQuery();
-
-        if ($last_id && $last_player = $this->findById($last_id)) {
-            $query=$query->after($last_player);
+        if ($last_id && Str::isUuid($last_id)) {
+            $player = Player::where('id', '=', $last_id)->first();
+            if ($player) {
+                $query = $query->withIndex('rankingIndex');
+                $query = $query->afterKey(['id' => $last_id, 'ranking' => $player->ranking]);
+            }
         }
-        $query->withIndex('rankingIndex');
-        $query=$query->decorate(function (RawDynamoDbQuery $raw) {
+        $query = $query->withIndex('rankingIndex');
+        $query = $query->decorate(function (RawDynamoDbQuery $raw) {
             // desc order
-            $raw->query['ScanIndexForward'] = false;
+            $raw->query['ScanIndexForward'] = true;
         });
-        if ($q != null && $q != "") {
-            $query=$query->where('id', 'contains',$q )
-                ->orWhere('nickname', 'contains', $q)
-                ->orWhere('status', 'contains', $q)
-                ->orWhere('ranking', 'contains', $q);
-        }
 
+        if ($q != null && $q != "") {
+            $query = $query->orWhere('id', 'contains', $q)
+                ->orWhere('nickname', 'contains', $q)
+                ->orWhere('status', 'contains', $q);
+            if (is_numeric($q)) {
+                $query = $query->orWhere('ranking', '=', (int)$q);
+            }
+
+        }
 
         $total_count = $query->count();
-        $query=$query->limit($per_page);
+        $query = $query->limit($per_page);
         $items = $query->get();
-        $page_count =$query->count();
+        $page_count = $items->count();
         $last = $items->last();
-
-        $paramerter_q = ($q == null) ? "" : "q=$q";
-        $paramerter_per_page = ($per_page == 10) ? "" : "&per_page=$per_page";
-        $next_link = ($last) ? "player?$paramerter_q$paramerter_per_page&last={$last->id}" : "";
+        $paramerter_q = ($q == null || $q == '') ? "" : "q=$q";
+        $next_link = ($last) ? "player?$paramerter_q&last={$last->id}" : "";
         if ($page_count < $per_page) {
             $next_link = null;
         }
@@ -52,8 +62,8 @@ class Players
             "total_count" => $total_count,
             "records" => $items,
             "links" => [
-                "first" => "player?$paramerter_q$paramerter_per_page",
-                "self" => "player?$paramerter_q$paramerter_per_page&last={$last_id}",
+                "first" => "player?$paramerter_q",
+                "self" => "player?$paramerter_q&last={$last_id}",
                 "next" => $next_link,
             ]
         ];
@@ -72,14 +82,13 @@ class Players
 
     public function findById($id)
     {
-        $player= Player::query()->where('id', $id)->first();
-        return $player;
+        $query = new Player();
+        return $query->where('id', '=', $id)->first();;
     }
 
     public function update($request, $id)
     {
-        $player= new Player();
-        $player = $player->newQuery()->where('id', $id)->first();
+        $player = $this->findById($id);
         $playerRequest = $request->all();
         $avatar = $playerRequest["avatar"];
         unset($playerRequest["_method"]);
