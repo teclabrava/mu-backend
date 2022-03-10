@@ -13,20 +13,11 @@ class Players
     public function search()
     {
         $q = request('q', null);
-        $last_id = request('last', null);
-        $per_page = 10;
+        $page = request('page', 1);
+        $limit =  request('per_page', 10);
         $player = new Player();
         $query = new DynamoDbQueryBuilder($player);
-        // $query = $player->newQuery();
 
-//        if ($last_id && Str::isUuid($last_id)) {
-//            $player = Player::where('id', '=', $last_id)->first();
-//            if ($player) {
-//                //$query = $query->withIndex('rankingIndex');
-//                $query = $query->afterKey(['id' => $last_id, 'ranking' => $player->ranking]);
-//            }
-//        }
-       // $query = $query->withIndex('rankingIndex');
         $query = $query->decorate(function (RawDynamoDbQuery $raw) {
             // desc order
             $raw->query['ScanIndexForward'] = false;
@@ -42,31 +33,43 @@ class Players
 
         }
 
-        $total_count = $query->count();
-        //$query = $query->limit($per_page);
+        $total = $query->count();
         $items = $query->get();
-        $page_count = $items->count();
-      //  $last = $items->last();
         $paramerter_q = ($q == null || $q == '') ? "" : "q=$q";
-     //   $next_link = ($last) ? "player?$paramerter_q&last={$last->id}" : "";
-//        if ($page_count < $per_page) {
-//            $next_link = null;
-//        }
 
+
+        $totalPages = ceil( $total/ $limit );
+        $page = max($page, 1);
+        $page = min($page, $totalPages);
+        $offset = ($page - 1) * $limit;
+        if( $offset < 0 ) $offset = 0;
+
+        $records =$items->toArray();
+        usort($records, sorter('ranking'));
+        $records = array_slice( $records, $offset, $limit );
+
+        $prev = ($page>1)? $page - 1:null;
+        $next = ($page<$totalPages)? $page + 1:null;
         $data = [
-      //      "last" => ($last) ? $last->id : null,
-            "per_page" => $per_page,
-            "page_count" => $page_count,
-            "total_count" => $total_count,
-            "records" => $items,
+            "per_page" => $limit,
+            "page_count" => count($records),
+            "total_count" => $total,
+            "records" => $records,
             "links" => [
                 "first" => "player?$paramerter_q",
-                "self" => "player?$paramerter_q&last={$last_id}",
-       //         "next" => $next_link,
+                "prev" => ($page>1)? "player?$paramerter_q&page={$prev}": null,
+                "next" => "player?$paramerter_q&prev={$next}",
+                "last" => "player?$paramerter_q&page={$totalPages}",
             ]
         ];
 
         return $data;
+    }
+
+    function sorter($key) {
+        return function ($a, $b) use ($key) {
+            return (int)$a[$key]<(int)$b[$key];
+        };
     }
 
     public function store($request)
