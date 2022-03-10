@@ -111,20 +111,17 @@ class Players
     }
     function _sort_ranking_desc($array )
     {
-        do
-        {
-            $swapped = false;
-            for( $i = 0, $c = count( $array ) - 1; $i < $c; $i++ )
-            {
-                if( (int) $array[$i]['ranking'] > (int) $array[$i + 1]['ranking'] )
-                {
-                    list( $array[$i + 1], $array[$i] ) =
-                        array( $array[$i], $array[$i + 1] );
-                    $swapped = true;
-                }
+        for ($i = 0; $i < count($array); $i++) {
+            $val =(int) $array[$i]['ranking'];
+            $itemVal = $array[$i];
+            $j = $i-1;
+            while($j>=0 && (int)$array[$j]['ranking'] < $val){
+                $array[$j+1] = $array[$j];
+                $j--;
             }
+            $array[$j+1] = $itemVal;
+
         }
-        while( $swapped );
         return $array;
     }
 
