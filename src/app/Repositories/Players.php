@@ -45,9 +45,7 @@ class Players
         if ($offset < 0) $offset = 0;
 
         $records = $items->toArray();
-        \usort($records, function ($a, $b) {
-            return (int)$a['ranking'] < (int)$b['ranking'];
-        });
+        $this->_sort_ranking_desc($records);
         $records = array_slice($records, $offset, $limit);
 
         $prev = ($page > 1) ? $page - 1 : null;
@@ -110,6 +108,24 @@ class Players
             return 204;
         }
         return 404;
+    }
+    function _sort_ranking_desc($array )
+    {
+        do
+        {
+            $swapped = false;
+            for( $i = 0, $c = count( $array ) - 1; $i < $c; $i++ )
+            {
+                if( (int) $array[$i]['ranking'] > (int) $array[$i + 1]['ranking'] )
+                {
+                    list( $array[$i + 1], $array[$i] ) =
+                        array( $array[$i], $array[$i + 1] );
+                    $swapped = true;
+                }
+            }
+        }
+        while( $swapped );
+        return $array;
     }
 
 
