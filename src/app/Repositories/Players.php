@@ -79,7 +79,9 @@ class Players
         unset($playerRequest["avatar"]);
         if ($player) {
             $player->update($playerRequest);
-            $player->addAvatar($avatar);
+            if(!is_string($avatar)){
+                $player->addAvatar($avatar);
+            }
             $player->save();
             return $player;
         }

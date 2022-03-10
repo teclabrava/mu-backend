@@ -98,7 +98,6 @@ class PlayerController extends Controller
             'nickname' => 'required|max:255',
             'status' => 'required|max:10',
             'ranking' => 'required|integer',
-            'avatar' => 'required',
         ]);
 
         $player = $this->players->update($request, $id);
