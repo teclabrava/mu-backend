@@ -45,7 +45,7 @@ class Players
         if ($offset < 0) $offset = 0;
 
         $records = $items->toArray();
-        usort($records, function ($a, $b) {
+        \usort($records, function ($a, $b) {
             return (int)$a['ranking'] < (int)$b['ranking'];
         });
         $records = array_slice($records, $offset, $limit);
