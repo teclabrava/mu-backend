@@ -23,7 +23,7 @@ Create and setting values in .env file with the following values
 AWS_ACCESS_KEY_ID=<your access key>
 AWS_SECRET_ACCESS_KEY=<your secret key>
 AWS_DEFAULT_REGION=<your region>
-STAGE=<your stage>
+STAGE=<your stage> # development use stage develop
 ```
 ##Generate data in development environment
 ```bash
@@ -31,41 +31,19 @@ docker-compose up -d --build
 docker-compose exec console vendor/bin/bref cli -r us-east-2 "player-develop-console" -- db:seed 
 ```
 
-Run batch user creation 200 at a time
-lambda function name is: player-<ENVIRONMENT>-console
-```bash
-cd src
-"vendor\bin\bref" cli -r us-east-2 "player-develop-console" -- db:seed --class=PlayerSeeder
-```
-Clean the user table
-```bash
-cd src
-"vendor\bin\bref" cli -r us-east-2 "player-develop-console" -- db:seed --class=PlayerClearSeeder
-```
-Create 3000 players
-```bash
-i=1
-while [ $i -le 20 ]
-do
-  players=$(( $i * 100 ));
-  echo "Creating $players playes";
-  "vendor\bin\bref" cli -r us-east-2 "player-develop-console" -- db:seed --class=PlayerSeeder
-  i=$(( $i + 1 ));
-done
-```
 ##Run Lint tests
 ```bash
 cd src
 composer install 
 composer require overtrue/phplint:^4.0 --dev -vvv
-vendor\bin\phplint 
+vendor/bin/phplint 
 ```
 ##Run unit tests
 It has been implemented in the folder src/tests/unit the unit test  for actions index, show, and delete
 ```bash
 cd src
 composer install 
-vendor\bin\phpunit
+vendor/bin/phpunit
 ```
 ##Deployment manual
 ##Settings account AWS

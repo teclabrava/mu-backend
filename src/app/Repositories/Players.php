@@ -12,23 +12,21 @@ class Players
 {
     public function search()
     {
-
-
         $q = request('q', null);
         $last_id = request('last', null);
         $per_page = 10;
         $player = new Player();
         $query = new DynamoDbQueryBuilder($player);
-       // $query = $player->newQuery();
+        // $query = $player->newQuery();
 
         if ($last_id && Str::isUuid($last_id)) {
             $player = Player::where('id', '=', $last_id)->first();
             if ($player) {
-                $query = $query->withIndex('rankingIndex');
-                $query = $query->afterKey(['id' => $last_id, 'ranking' => $player->ranking]);
+               // $query = $query->withIndex('rankingIndex');
+                $query = $query->afterKey(['id' => $last_id]);
             }
         }
-        $query = $query->withIndex('rankingIndex');
+        //$query = $query->withIndex('rankingIndex');
         $query = $query->decorate(function (RawDynamoDbQuery $raw) {
             // desc order
             $raw->query['ScanIndexForward'] = true;
