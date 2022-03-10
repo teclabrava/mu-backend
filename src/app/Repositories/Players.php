@@ -22,28 +22,28 @@ class Players
         if ($last_id && Str::isUuid($last_id)) {
             $player = Player::where('id', '=', $last_id)->first();
             if ($player) {
-               // $query = $query->withIndex('rankingIndex');
-                $query = $query->afterKey(['id' => $last_id]);
+                $query = $query->withIndex('rankingIndex');
+                $query = $query->afterKey(['id' => $last_id, 'ranking' => $player->ranking]);
             }
         }
-        //$query = $query->withIndex('rankingIndex');
+        $query = $query->withIndex('rankingIndex');
         $query = $query->decorate(function (RawDynamoDbQuery $raw) {
             // desc order
-            $raw->query['ScanIndexForward'] = true;
+            $raw->query['ScanIndexForward'] = false;
         });
-        $total_count = $query->count();
+
         if ($q != null && $q != "") {
             $query = $query->orWhere('id', 'contains', $q)
                 ->orWhere('nickname', 'contains', $q)
-                ->orWhere('status', 'contains', $q)->limit($per_page);
+                ->orWhere('status', 'contains', $q);
             if (is_numeric($q)) {
-                $query = $query->orWhere('ranking', '=', (int)$q)->limit($per_page);
+                $query = $query->orWhere('ranking', '=', (int)$q);
             }
 
         }
 
-
-       // $query = $query->limit($per_page);
+        $total_count = $query->count();
+        $query = $query->limit($per_page);
         $items = $query->get();
         $page_count = $items->count();
         $last = $items->last();
