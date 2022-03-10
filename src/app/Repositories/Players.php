@@ -45,7 +45,7 @@ class Players
         if ($offset < 0) $offset = 0;
 
         $records = $items->toArray();
-        $this->_sort_ranking_desc($records);
+        $records = $this->_sort_ranking_desc($records);
         $records = array_slice($records, $offset, $limit);
 
         $prev = ($page > 1) ? $page - 1 : null;
@@ -109,17 +109,18 @@ class Players
         }
         return 404;
     }
-    function _sort_ranking_desc($array )
+
+    function _sort_ranking_desc($array)
     {
         for ($i = 0; $i < count($array); $i++) {
-            $val =(int) $array[$i]['ranking'];
+            $val = (int)$array[$i]['ranking'];
             $itemVal = $array[$i];
-            $j = $i-1;
-            while($j>=0 && (int)$array[$j]['ranking'] < $val){
-                $array[$j+1] = $array[$j];
+            $j = $i - 1;
+            while ($j >= 0 && (int)$array[$j]['ranking'] < $val) {
+                $array[$j + 1] = $array[$j];
                 $j--;
             }
-            $array[$j+1] = $itemVal;
+            $array[$j + 1] = $itemVal;
 
         }
         return $array;
