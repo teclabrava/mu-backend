@@ -45,7 +45,9 @@ class Players
         if( $offset < 0 ) $offset = 0;
 
         $records =$items->toArray();
-        usort($records, $this->sorter('ranking'));
+        usort($records, function ($a, $b)  {
+            return (int)$a['ranking']<(int)$b['ranking'];
+        });
         $records = array_slice( $records, $offset, $limit );
 
         $prev = ($page>1)? $page - 1:null;
@@ -64,12 +66,6 @@ class Players
         ];
 
         return $data;
-    }
-
-    function sorter($key) {
-        return function ($a, $b) use ($key) {
-            return (int)$a[$key]<(int)$b[$key];
-        };
     }
 
     public function store($request)
