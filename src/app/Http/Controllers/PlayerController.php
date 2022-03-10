@@ -63,7 +63,7 @@ class PlayerController extends Controller
             'nickname' => 'required|max:255',
             'status' => 'required|max:10',
             'ranking' => 'required|integer',
-            'avatar' => 'required',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $player = $this->players->store($request);
         $this->response->setData($player);
@@ -97,7 +97,7 @@ class PlayerController extends Controller
         $this->validate($request, [
             'nickname' => 'required|max:255',
             'status' => 'required|max:10',
-            'ranking' => 'required|integer',
+            'ranking' => 'required|integer'
         ]);
 
         $player = $this->players->update($request, $id);

@@ -5,8 +5,9 @@ namespace App\Models;
 use App\Traits\HasAvatar;
 use App\Traits\TraitUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use BaoPham\DynamoDb\DynamoDbModel;
 
-class Player extends Model
+class Player extends DynamoDbModel
 {
     use HasFactory, HasAvatar, TraitUuid;
 
@@ -32,4 +33,10 @@ class Player extends Model
         $this->table = env('DYNAMODB_PREFIX', 'local') . '.player';
         parent::__construct($attributes);
     }
+    protected $dynamoDbIndexKeys = [
+        'rankingIndex' => [
+            'hash' => 'id',
+            'range' => 'ranking'
+        ]
+    ];
 }

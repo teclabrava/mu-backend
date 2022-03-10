@@ -55,22 +55,36 @@ package:
     - '!resources/assets/**'
     - '!storage/**'
     - '!tests/**'
-
+    - '!aws'
 resources:
   Resources:
-    PlayerTableResource:
+    PlayerTableLocal:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: "${self:provider.stage}.player"
+        TableName: develop.player
         AttributeDefinitions:
           - AttributeName: id
+            AttributeType: S
+          - AttributeName: ranking
             AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
         ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        GlobalSecondaryIndexes:
+          - IndexName: rankingIndex
+            KeySchema:
+              - AttributeName: id
+                KeyType: HASH
+              - AttributeName: ranking
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 5
+              WriteCapacityUnits: 5
 custom:
   customDomain:
     domainName: api-develop.teclabrava.com

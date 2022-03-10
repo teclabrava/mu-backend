@@ -1,59 +1,36 @@
 # Mañu is based in Lumen
-This project manage the Mañu's backend  
+This project manage the Mañu's backend
 
 ## Requirements
-- PHP 8.0
-- Nodejs 16.x
-- Severless 3.x
-- awscliv2 
-- AWS account with S3, DynamoDB, Lambda, API Gateway and Route53
-- Java 8 *(optional local environment)*
 - Docker, docker-compose *(optional local environment)*
-
 ## From the command line run
 ```bash
-docker-compose up --build 
+git clone https://github.com/teclabrava/mu-backend.git
+cd mu-backend
+git checkout develop
+docker-compose up -d --build 
 ```
-Web browser: http://localhost:8080
-## Installation and Configuration locally
-dynamoDBis saved on memory
-### Dependencies
-From the command line run:
-```bash
-sudo npm install -g serverless
-npm install 
-cd src
-composer install
-```
-### Services init
-Copiar las variables de entorno .env.example.local a .env
-Copy .env.example.local  to .env
-```bash
-cd src
-cp env.example.local .env
-```
-#### Run Local S3
-```bash
-cd serverless
-sls offline --stage local --config=serverless.local.yml >&2
-```
-#### Run Local dynamodb
-```bash
-cd serverless
-sls dynamodb install --config=serverless.local.yml && sls dynamodb start --stage local --verbose --config=serverless.local.yml >&2 
-```
-#### Run Local web server
-```bash
-cd src
-php -S 0.0.0.0:8080 -t public >&2
-```
-Web browser: http://localhost:8080
+Opem web browser: http://localhost:8080
 ## Generate test data
-### On DynamoDB
-Configure AWS account to connect with lambda
+### Generate test data in local environment
 ```bash
-aws configure
+docker-compose exec api php artisan db:seed
 ```
+### On DynamoDB in development environment
+##Settings account AWS
+Create and setting values in .env file with the following values
+```bash
+AWS_ACCESS_KEY_ID=<your access key>
+AWS_SECRET_ACCESS_KEY=<your secret key>
+AWS_DEFAULT_REGION=<your region>
+STAGE=<your stage>
+```
+##Generate data in development environment
+```bash
+docker-compose up -d --build
+docker-compose exec console vendor/bin/bref cli -r us-east-2 "player-develop-console" -- db:seed 
+```
+
 Run batch user creation 200 at a time
 lambda function name is: player-<ENVIRONMENT>-console
 ```bash
@@ -89,4 +66,18 @@ It has been implemented in the folder src/tests/unit the unit test  for actions 
 cd src
 composer install 
 vendor\bin\phpunit
+```
+##Deployment manual
+##Settings account AWS
+Create and setting values in .env file with the following values
+```bash
+AWS_ACCESS_KEY_ID=<your access key>
+AWS_SECRET_ACCESS_KEY=<your secret key>
+AWS_DEFAULT_REGION=<your region>
+STAGE=<your stage>
+```
+##Deployment in develop
+```bash
+docker-compose up -d --build
+docker-compose exec console sls deploy --config=serverless.develop.yml --stage develop
 ```
