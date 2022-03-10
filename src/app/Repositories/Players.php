@@ -14,7 +14,7 @@ class Players
     {
         $q = request('q', null);
         $page = request('page', 1);
-        $limit =  request('per_page', 10);
+        $limit = request('per_page', 10);
         $player = new Player();
         $query = new DynamoDbQueryBuilder($player);
 
@@ -38,20 +38,20 @@ class Players
         $paramerter_q = ($q == null || $q == '') ? "" : "q=$q";
 
 
-        $totalPages = ceil( $total/ $limit );
+        $totalPages = ceil($total / $limit);
         $page = max($page, 1);
         $page = min($page, $totalPages);
         $offset = ($page - 1) * $limit;
-        if( $offset < 0 ) $offset = 0;
+        if ($offset < 0) $offset = 0;
 
-        $records =$items->toArray();
-        usort($records, function ($a, $b)  {
-            return (int)$a['ranking']<(int)$b['ranking'];
+        $records = $items->toArray();
+        usort($records, function ($a, $b) {
+            return (int)$a['ranking'] < (int)$b['ranking'];
         });
-        $records = array_slice( $records, $offset, $limit );
+        $records = array_slice($records, $offset, $limit);
 
-        $prev = ($page>1)? $page - 1:null;
-        $next = ($page<$totalPages)? $page + 1:null;
+        $prev = ($page > 1) ? $page - 1 : null;
+        $next = ($page < $totalPages) ? $page + 1 : null;
         $data = [
             "per_page" => $limit,
             "page_count" => count($records),
@@ -59,8 +59,8 @@ class Players
             "records" => $records,
             "links" => [
                 "first" => "player?$paramerter_q",
-                "prev" => ($page>1)? "player?$paramerter_q&page={$prev}": null,
-                "next" => "player?$paramerter_q&prev={$next}",
+                "prev" => ($page > 1) ? "player?$paramerter_q&page={$prev}" : null,
+                "next" => ($page < $totalPages) ? "player?$paramerter_q&page={$next}" : null,
                 "last" => "player?$paramerter_q&page={$totalPages}",
             ]
         ];
@@ -92,7 +92,7 @@ class Players
         unset($playerRequest["avatar"]);
         if ($player) {
             $player->update($playerRequest);
-            if(!is_string($avatar)){
+            if (!is_string($avatar)) {
                 $player->addAvatar($avatar);
             }
             $player->save();
