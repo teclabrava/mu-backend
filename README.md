@@ -22,13 +22,15 @@ From the command line run:
 ```bash
 sudo npm install -g serverless
 npm install 
+cd src
 composer install
 ```
 ### Services init
 Copiar las variables de entorno .env.example.local a .env
 Copy .env.example.local  to .env
 ```bash
-cp .env.example.local .env
+cd src
+cp env.example.local .env
 ```
 #### Run Local S3
 ```bash
