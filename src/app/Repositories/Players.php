@@ -19,14 +19,14 @@ class Players
         $query = new DynamoDbQueryBuilder($player);
         // $query = $player->newQuery();
 
-        if ($last_id && Str::isUuid($last_id)) {
-            $player = Player::where('id', '=', $last_id)->first();
-            if ($player) {
-                $query = $query->withIndex('rankingIndex');
-                $query = $query->afterKey(['id' => $last_id, 'ranking' => $player->ranking]);
-            }
-        }
-        $query = $query->withIndex('rankingIndex');
+//        if ($last_id && Str::isUuid($last_id)) {
+//            $player = Player::where('id', '=', $last_id)->first();
+//            if ($player) {
+//                //$query = $query->withIndex('rankingIndex');
+//                $query = $query->afterKey(['id' => $last_id, 'ranking' => $player->ranking]);
+//            }
+//        }
+       // $query = $query->withIndex('rankingIndex');
         $query = $query->decorate(function (RawDynamoDbQuery $raw) {
             // desc order
             $raw->query['ScanIndexForward'] = false;
@@ -43,18 +43,18 @@ class Players
         }
 
         $total_count = $query->count();
-        $query = $query->limit($per_page);
+        //$query = $query->limit($per_page);
         $items = $query->get();
         $page_count = $items->count();
-        $last = $items->last();
+      //  $last = $items->last();
         $paramerter_q = ($q == null || $q == '') ? "" : "q=$q";
-        $next_link = ($last) ? "player?$paramerter_q&last={$last->id}" : "";
-        if ($page_count < $per_page) {
-            $next_link = null;
-        }
+     //   $next_link = ($last) ? "player?$paramerter_q&last={$last->id}" : "";
+//        if ($page_count < $per_page) {
+//            $next_link = null;
+//        }
 
         $data = [
-            "last" => ($last) ? $last->id : null,
+      //      "last" => ($last) ? $last->id : null,
             "per_page" => $per_page,
             "page_count" => $page_count,
             "total_count" => $total_count,
@@ -62,7 +62,7 @@ class Players
             "links" => [
                 "first" => "player?$paramerter_q",
                 "self" => "player?$paramerter_q&last={$last_id}",
-                "next" => $next_link,
+       //         "next" => $next_link,
             ]
         ];
 
