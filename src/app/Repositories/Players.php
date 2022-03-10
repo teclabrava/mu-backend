@@ -31,19 +31,19 @@ class Players
             // desc order
             $raw->query['ScanIndexForward'] = true;
         });
-
+        $total_count = $query->count();
         if ($q != null && $q != "") {
             $query = $query->orWhere('id', 'contains', $q)
                 ->orWhere('nickname', 'contains', $q)
-                ->orWhere('status', 'contains', $q);
+                ->orWhere('status', 'contains', $q)->limit($per_page);
             if (is_numeric($q)) {
-                $query = $query->orWhere('ranking', '=', (int)$q);
+                $query = $query->orWhere('ranking', '=', (int)$q)->limit($per_page);
             }
 
         }
 
-        $total_count = $query->count();
-        $query = $query->limit($per_page);
+
+       // $query = $query->limit($per_page);
         $items = $query->get();
         $page_count = $items->count();
         $last = $items->last();
